@@ -1,0 +1,15 @@
+html, body {        
+    width: 100%;    /* definindo largura e altura no body e html para que eu possa utilizar */
+    height: 100%;   /* tamanhos em porcentagem em todos os elementos do jogo*/
+    margin: 0;
+    padding: 0;
+}
+
+#duck{
+    position: absolute;                         /*coloquei position absolute para a div do pato se mover livre na tela*/
+    background-image: url("images/duck.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 20%;
+    height: 20%;
+}
