@@ -1,8 +1,12 @@
-const duck = document.getElementById("duck");
-let posX = 0;
-let posY = 0;
-let velocity = 5;
+const duck = document.getElementById("duck");       // referencia do pato
+let posX = 0;                                       // posicao x do pato
+let posY = 0;                                       // posicao y do pato
+let velocity = 5;                                   // velocidade do pato
 const keys = {w:false, a:false, s:false, d:false}   // teclas de movimentacao
+const heightScreen = window.innerHeight;            // altura da tela
+const widthScreen = window.innerWidth;              // largura da tela
+const heightDuck = duck.offsetHeight;               // altura do pato
+const widthDuck = duck.offsetWidth;                 // largura do pato
 
 document.addEventListener("keydown", function(event){
     const button = event.key.toLowerCase();
@@ -24,6 +28,18 @@ function gameLoop(){
     if (keys.s) {posY += velocity;}
     if (keys.a) {posX -= velocity; duck.style.transform = "scale(-1, 1)";}
     if (keys.d) {posX += velocity; duck.style.transform = "scale(1, 1)";}
+
+    if (posX < 0){
+        posX = 0;
+    }else if(posX > widthScreen - widthDuck){
+        posX = widthScreen - widthDuck;
+    }
+
+    if (posY < 0){
+        posY = 0;
+    }else if(posY > heightScreen - heightDuck){
+        posY = heightScreen - heightDuck;
+    }
 
     duck.style.left = posX + "px";
     duck.style.top = posY + "px";
