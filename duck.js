@@ -2,11 +2,13 @@ const duck = document.getElementById("duck");       // referencia do pato
 let posX = 0;                                       // posicao x do pato
 let posY = 0;                                       // posicao y do pato
 let velocity = 5;                                   // velocidade do pato
-const keys = {w:false, a:false, s:false, d:false}   // teclas de movimentacao
+const keys = {w:false, a:false, s:false, d:false, shift:false}   // teclas de movimentacao
 const heightScreen = window.innerHeight;            // altura da tela
 const widthScreen = window.innerWidth;              // largura da tela
 const heightDuck = duck.offsetHeight;               // altura do pato
 const widthDuck = duck.offsetWidth;                 // largura do pato
+let energy = 100;
+const costRun = 10;
 
 document.addEventListener("keydown", function(event){
     const button = event.key.toLowerCase();
@@ -23,11 +25,25 @@ document.addEventListener("keyup", function(event){
 });
 
 function gameLoop(){
+    let currentVelocity;
 
-    if (keys.w) {posY -= velocity;}
-    if (keys.s) {posY += velocity;}
-    if (keys.a) {posX -= velocity; duck.style.transform = "scale(-1, 1)";}
-    if (keys.d) {posX += velocity; duck.style.transform = "scale(1, 1)";}
+    if (energy > 100) {energy = 100} else if (energy < 0) {energy = 0}
+
+    if (keys.shift){
+        currentVelocity=10;                    // se shift estiver sendo clicado a velocidade atual recebe 15
+        energy -= costRun;
+        console.log(energy);
+    }       
+    else {
+        currentVelocity=velocity;              // senao a velocidade atual recebe o valor normal (5)
+        energy += costRun;
+        console.log(energy);
+    }              
+
+    if (keys.w) {posY -= currentVelocity;}
+    if (keys.s) {posY += currentVelocity;}
+    if (keys.a) {posX -= currentVelocity; duck.style.transform = "scale(-1, 1)";}
+    if (keys.d) {posX += currentVelocity; duck.style.transform = "scale(1, 1)";}
 
     if (posX < 0){
         posX = 0;
