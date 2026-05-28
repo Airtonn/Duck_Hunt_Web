@@ -1,66 +1,71 @@
-const duck = document.getElementById("duck");       // referencia do pato
-let posX = 0;                                       // posicao x do pato
-let posY = 0;                                       // posicao y do pato
-let velocity = 5;                                   // velocidade do pato
-const keys = {w:false, a:false, s:false, d:false, shift:false}   // teclas de movimentacao
-const heightScreen = window.innerHeight;            // altura da tela
-const widthScreen = window.innerWidth;              // largura da tela
-const heightDuck = duck.offsetHeight;               // altura do pato
-const widthDuck = duck.offsetWidth;                 // largura do pato
-let energy = 100;
-const costRun = 10;
-
-document.addEventListener("keydown", function(event){
-    const button = event.key.toLowerCase();
-    if (keys.hasOwnProperty(button)){         // hasOwnProperty() serve pra verificar se uma variavel tem aquela propriedade
-        keys[button] = true;                  // no caso do keys.hasOwnProperty(button) verifica se keys tem o botao pressionado
+class Duck {
+    constructor() {
+        this.element = document.getElementById("duck");       // referencia do pato
+        this.posX = 0;                                       // posicao x do pato
+        this.posY = 0;                                       // posicao y do pato
+        this.velocity = 5;                                   // velocidade do pato
+        this.heightScreen = window.innerHeight;            // altura da tela
+        this.widthScreen = window.innerWidth;              // largura da tela
+        this.heightDuck = this.element.offsetHeight;               // altura do pato
+        this.widthDuck = this.element.offsetWidth;                 // largura do pato
+        this.energy = 100;
+        this.costRun = 10;
+        this.health = 100;
+        this.shootCooldown = 0;
     }
-});
-
-document.addEventListener("keyup", function(event){
-    const button = event.key.toLowerCase();
-    if (keys.hasOwnProperty(button)){         // hasOwnProperty() serve pra verificar se uma variavel tem aquela propriedade
-        keys[button] = false;                 // no caso do keys.hasOwnProperty(button) verifica se keys tem o botao que deixou de ser pressionado
+    
+    update(keys) {
+        let currentVelocity = this.velocity;
+        
+        if (this.energy > 100) this.energy = 100;
+        else if (this.energy < 0) this.energy = 0;
+        
+        if (keys.shift) {
+            currentVelocity = 10;
+            this.energy -= this.costRun;
+        } else {
+            this.energy += this.costRun;
+        }
+        
+        if (keys.w) this.posY -= currentVelocity;
+        if (keys.s) this.posY += currentVelocity;
+        if (keys.a) {
+            this.posX -= currentVelocity;
+            this.element.style.transform = "scale(-1, 1)";
+        }
+        if (keys.d) {
+            this.posX += currentVelocity;
+            this.element.style.transform = "scale(1, 1)";
+        }
+        
+        // Limites da tela
+        if (this.posX < 0) this.posX = 0;
+        else if (this.posX > this.widthScreen - this.widthDuck) this.posX = this.widthScreen - this.widthDuck;
+        
+        if (this.posY < 0) this.posY = 0;
+        else if (this.posY > this.heightScreen - this.heightDuck) this.posY = this.heightScreen - this.heightDuck;
+        
+        this.element.style.left = this.posX + "px";
+        this.element.style.top = this.posY + "px";
     }
-});
-
-function gameLoop(){
-    let currentVelocity;
-
-    if (energy > 100) {energy = 100} else if (energy < 0) {energy = 0}
-
-    if (keys.shift){
-        currentVelocity=10;                    // se shift estiver sendo clicado a velocidade atual recebe 15
-        energy -= costRun;
-        console.log(energy);
-    }       
-    else {
-        currentVelocity=velocity;              // senao a velocidade atual recebe o valor normal (5)
-        energy += costRun;
-        console.log(energy);
-    }              
-
-    if (keys.w) {posY -= currentVelocity;}
-    if (keys.s) {posY += currentVelocity;}
-    if (keys.a) {posX -= currentVelocity; duck.style.transform = "scale(-1, 1)";}
-    if (keys.d) {posX += currentVelocity; duck.style.transform = "scale(1, 1)";}
-
-    if (posX < 0){
-        posX = 0;
-    }else if(posX > widthScreen - widthDuck){
-        posX = widthScreen - widthDuck;
+    
+    shoot(targetX, targetY) {
+        if (this.shootCooldown <= 0) {
+            const bullet = new Bullet(
+                this.posX + this.widthDuck / 2,
+                this.posY + this.heightDuck / 2,
+                targetX,
+                targetY,
+                "duck"
+            );
+            bullets.push(bullet);
+            this.shootCooldown = 30;
+        }
     }
-
-    if (posY < 0){
-        posY = 0;
-    }else if(posY > heightScreen - heightDuck){
-        posY = heightScreen - heightDuck;
+    
+    takeDamage(damage) {
+        this.health -= damage;
+        return this.health <= 0;
     }
-
-    duck.style.left = posX + "px";
-    duck.style.top = posY + "px";
-
-    requestAnimationFrame(gameLoop);
 }
-
-gameLoop()      // inicio o game loop do jogo
+export default Duck;
