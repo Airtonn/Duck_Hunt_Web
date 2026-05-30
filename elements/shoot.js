@@ -1,16 +1,12 @@
-// ============================================================
-//  shoot.js  –  sistema de tiro do pato
-// ============================================================
-
 const BULLET_SPEED   = 8;      // pixels por frame
 const BULLET_SIZE    = 12;     // diâmetro da bolinha (px)
 const DUCK_BULLET_COLOR   = "#4fc3f7"; // azul claro
 
 // Array com todos os projéteis ativos na tela
-const bullets = [];
+export const bullets = [];
 
 // ── Cria um projétil novo na posição do pato ──────────────────
-function spawnBullet(mouseX, mouseY) {
+export function spawnBullet(mouseX, mouseY) {
     // Centro do pato
     const duckRect = duck.getBoundingClientRect();
     const startX   = duckRect.left + duckRect.width  / 2;
@@ -42,7 +38,7 @@ function spawnBullet(mouseX, mouseY) {
 }
 
 // ── Atualiza todos os projéteis (chamado no game loop) ────────
-function updateBullets() {
+export function updateBullets() {
     for (let i = bullets.length - 1; i >= 0; i--) {
         const b = bullets[i];
         b.x += b.vx;
