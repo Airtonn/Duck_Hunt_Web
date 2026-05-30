@@ -15,7 +15,7 @@ body {
 }
 
 #duck {
-    background-image: url("images/duck.png");
+    background-image: url("images/duck_normal.png");
     width: 10%;
     height: 15%;
 }
