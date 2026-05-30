@@ -4,6 +4,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-image: url("images/hunter_duck_background.png");
 }
 
 #duck,
@@ -23,4 +24,13 @@ body {
     background-image: url("images/dog.png");
     width: 15%;
     height: 20%;
+}
+
+.bullet {
+    position: absolute;
+    border-radius: 50%;                         /* forma circular */
+    background-color: #ffffff;                  /* azul claro */
+    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8); /* brilho ao redor */
+    pointer-events: none;                       /* não interfere com cliques */
+    z-index: 10;
 }

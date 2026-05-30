@@ -121,6 +121,8 @@ function gameLoop() {
         dog.element.style.top = dog.posY + "px";
     });
 
+    updateBullets();
+
     requestAnimationFrame(gameLoop);
 }
 
