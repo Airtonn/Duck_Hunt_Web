@@ -3,7 +3,7 @@ export let duckPos = {posX: 500, posY: 500};                // variavel responsa
 const walk = 5;                                             // velocidade normal do pato
 const run = 12;                                             // velocidade de corrida do pato
 export let energy = 100;                                    // energia do pato para correr
-const costRun = 10;                                         // custo da corrida
+const costRun = 5;                                         // custo da corrida
 
 const heightScreen = window.innerHeight;                    // altura da tela
 const widthScreen = window.innerWidth;                      // largura da tela

@@ -36,3 +36,58 @@ body {
     pointer-events: none;                       /* não interfere com cliques */
     z-index: 10;
 }
+
+#score{
+    color: white;
+    background-color: black;
+    margin-left: 30px;
+    width: 10%;
+    font-size: 40px;
+    text-align: center;
+    border-radius: 20px;
+    user-select: none;
+}
+
+#ammo {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: #2e2e2e;
+  border: 0.5px solid #555;
+  border-radius: 6px;
+  padding: 8px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
+  user-select: none;
+}
+
+.ammo-label {
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  font-family: monospace;
+  text-align: center;
+}
+
+.ammo-bullets {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ammo-pip {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f5c542;
+  border: 1.5px solid transparent;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.ammo-pip.spent {
+  background: transparent;
+  border: 1.5px solid #f5c542;
+  opacity: 0.35;
+}
