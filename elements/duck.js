@@ -6,8 +6,8 @@ const costRun = 10;
 
 const heightScreen = window.innerHeight;
 const widthScreen = window.innerWidth;
-const heightDuck = duck.offsetHeight || 100;
-const widthDuck = duck.offsetWidth || 100;
+export const duckHeight = duck.offsetHeight || 100;
+export const duckWidth = duck.offsetWidth || 100;
 
 export const keys = { w: false, a: false, s: false, d: false, shift: false };
 
@@ -45,9 +45,9 @@ export function moveDuck() {
     if (keys.d) { duckPos.posX += currentVelocity; duck.style.transform = "scale(1, 1)"; }
 
     if (duckPos.posX < 0) duckPos.posX = 0;
-    else if (duckPos.posX > widthScreen - widthDuck) duckPos.posX = widthScreen - widthDuck;
+    else if (duckPos.posX > widthScreen - duckWidth) duckPos.posX = widthScreen - duckWidth;
     if (duckPos.posY < 0) duckPos.posY = 0;
-    else if (duckPos.posY > heightScreen - heightDuck) duckPos.posY = heightScreen - heightDuck;
+    else if (duckPos.posY > heightScreen - duckHeight) duckPos.posY = heightScreen - duckHeight;
 
     duck.style.left = duckPos.posX + "px";
     duck.style.top = duckPos.posY + "px";
