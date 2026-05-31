@@ -1,9 +1,9 @@
-const heightScreen = window.innerHeight;
-const widthScreen = window.innerWidth;
-const heightDuck = 100;
+const heightScreen = window.innerHeight;        // altura da tela
+const widthScreen = window.innerWidth;          // largura da tela
+const heightDuck = 100;                     
 const widthDuck = 100;
-const heightDog = 100;
-const widthDog = 100;
+const dogHeight = 100;
+const dogWidth = 100;
 
 const dogVelocity = 10;
 const numDogs = 4;
@@ -17,15 +17,15 @@ function spawnPositionAndDirection(duckPos) {
 
     if (side === 0) {        // topo
         posX = Math.random() * widthScreen;
-        posY = -heightDog;
+        posY = -dogHeight;
     } else if (side === 1) { // baixo
         posX = Math.random() * widthScreen;
-        posY = heightScreen + heightDog;
+        posY = heightScreen + dogHeight;
     } else if (side === 2) { // esquerda
-        posX = -widthDog;
+        posX = -dogWidth;
         posY = Math.random() * heightScreen;
     } else {                 // direita
-        posX = widthScreen + widthDog;
+        posX = widthScreen + dogWidth;
         posY = Math.random() * heightScreen;
     }
 
@@ -44,9 +44,9 @@ function spawnPositionAndDirection(duckPos) {
 
 function isOutOfScreen(dog) {
     return (
-        dog.posX + widthDog < 0 ||
+        dog.posX + dogWidth < 0 ||
         dog.posX > widthScreen ||
-        dog.posY + heightDog < 0 ||
+        dog.posY + dogHeight < 0 ||
         dog.posY > heightScreen
     );
 }
@@ -88,9 +88,9 @@ export function updateDogs(duckPos) {
         if (!dog.hasDealtDamage) {
             const colliding =
                 dog.posX < duckPos.posX + widthDuck &&
-                dog.posX + widthDog > duckPos.posX &&
+                dog.posX + dogWidth > duckPos.posX &&
                 dog.posY < duckPos.posY + heightDuck &&
-                dog.posY + heightDog > duckPos.posY;
+                dog.posY + dogHeight > duckPos.posY;
 
             if (colliding) {
                 dog.hasDealtDamage = true;
