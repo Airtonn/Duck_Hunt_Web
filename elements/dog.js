@@ -5,12 +5,9 @@ const widthDuck = 100;
 const dogHeight = 100;
 const dogWidth = 100;
 
-const dogVelocity = 10;
-const numDogs = 4;
-
 export const dogs = [];
 
-function spawnPositionAndDirection(duckPos) {
+function spawnPositionAndDirection(duckPos, dogVelocity) {
     // Escolhe um dos 4 lados da tela para spawnar
     const side = Math.floor(Math.random() * 4); // 0=top, 1=bottom, 2=left, 3=right
     let posX, posY;
@@ -51,13 +48,13 @@ function isOutOfScreen(dog) {
     );
 }
 
-export function spawnDogs(duckPos) {
+export function spawnDogs(duckPos, numDogs, dogVelocity) {
     for (let i = 0; i < numDogs; i++) {
         const dogElement = document.createElement("div");
         dogElement.classList.add("dog");
         document.body.appendChild(dogElement);
 
-        const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos);
+        const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dogVelocity);
 
         dogs.push({
             element: dogElement,
@@ -71,7 +68,7 @@ export function spawnDogs(duckPos) {
     }
 }
 
-export function updateDogs(duckPos) {
+export function updateDogs(duckPos, dogVelocity) {
     dogs.forEach(dog => {
         // Cachorro morto não faz nada
         if (!dog.alive) return;
@@ -100,7 +97,7 @@ export function updateDogs(duckPos) {
 
         // Saiu da tela: relança automaticamente em direção ao pato
         if (isOutOfScreen(dog)) {
-            const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos);
+            const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dogVelocity);
             dog.posX = posX;
             dog.posY = posY;
             dog.velX = velX;

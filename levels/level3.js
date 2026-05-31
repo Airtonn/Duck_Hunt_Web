@@ -2,11 +2,11 @@ import { moveDuck, spawnDogs, updateDogs, updateBullets, duckPos, duckWidth, duc
     spawnBullet
 } from '../index.js';
 
-spawnDogs(duckPos);
+spawnDogs(duckPos,4, 10);
 
 function gameLoop() {
     moveDuck();
-    updateDogs(duckPos);
+    updateDogs(duckPos,10);
     updateBullets();
 
     requestAnimationFrame(gameLoop);

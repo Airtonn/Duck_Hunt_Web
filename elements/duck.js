@@ -1,3 +1,5 @@
+const lifeTextValue = document.getElementById("lifeValue")      // elemento de valor da vida
+const energyTextValue = document.getElementById("energyValue")  // elemento de valor da energia
 const duckNormalImage = "images/duck_normal.png";           // imagem do pato normal
 const duckConfuseImage = "images/duck_confused.png"         // imagem do pato confuso
 export const duck = document.getElementById("duck");        // pegando o elemento pato por meio do id
@@ -37,8 +39,9 @@ export function moveDuck() {
     let currentVelocity;                   // velocidade atual
 
     if (keys.shift && duckEnergy > 0) {        // se shift estiver sendo apertado e a energia for maior que 0
-        currentVelocity = run;             // velocidade do pato é a velocidade de corrida       
+        currentVelocity = run;                 // velocidade do pato é a velocidade de corrida       
         duckEnergy -= costRun;                 // a energia decai de acordo com custo da corrida
+        if (duckEnergy < 0) duckEnergy = 0;    // se eneergia ficar menor que 0 entao ela recebe 0
     } else {
         currentVelocity = walk;            // senao a velocidade do pato é a velocidade de andar
         if (duckEnergy < 100) duckEnergy += 0.5;   // se a energia for menor que 100 ela recebe um valor de recuperacao
@@ -58,6 +61,8 @@ export function moveDuck() {
 
     duck.style.left = duckPos.posX + "px";          // atualiza a posicao x do pato
     duck.style.top = duckPos.posY + "px";           // atualiza a posicao y do pato
+
+    energyTextValue.textContent = Math.floor(duckEnergy);
 }
 // *** Como a coordenada Y é invertida entao os valores negativos em Y fazem objetos subirem
 
@@ -67,4 +72,5 @@ export function takeDamage(damage, enemy){
     if (enemy == "dog"){
         duckConfuse = true;
     }
+    lifeTextValue.textContent = Math.floor(duckLife);
 }
