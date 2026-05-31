@@ -1,9 +1,14 @@
+const duckNormalImage = "images/duck_normal.png";           // imagem do pato normal
+const duckConfuseImage = "images/duck_confused.png"         // imagem do pato confuso
 export const duck = document.getElementById("duck");        // pegando o elemento pato por meio do id
 export let duckPos = {posX: 500, posY: 500};                // variavel responsavel por guardas as posicoes x e y do pato
 const walk = 5;                                             // velocidade normal do pato
 const run = 12;                                             // velocidade de corrida do pato
-export let energy = 100;                                    // energia do pato para correr
-const costRun = 5;                                         // custo da corrida
+export let duckEnergy = 100;                                // energia do pato para correr
+const costRun = 5;                                          // custo da corrida
+export let duckLife = 100                                   // vida do pato
+export let duckInvincible = false                           // booleana para verificar se o pato está invencivel
+export let duckConfuse = false                              // booleana para verificar se o pato está confuso
 
 const heightScreen = window.innerHeight;                    // altura da tela
 const widthScreen = window.innerWidth;                      // largura da tela
@@ -31,12 +36,12 @@ document.addEventListener("keyup", function (event) {
 export function moveDuck() {
     let currentVelocity;                   // velocidade atual
 
-    if (keys.shift && energy > 0) {        // se shift estiver sendo apertado e a energia for maior que 0
+    if (keys.shift && duckEnergy > 0) {        // se shift estiver sendo apertado e a energia for maior que 0
         currentVelocity = run;             // velocidade do pato é a velocidade de corrida       
-        energy -= costRun;                 // a energia decai de acordo com custo da corrida
+        duckEnergy -= costRun;                 // a energia decai de acordo com custo da corrida
     } else {
         currentVelocity = walk;            // senao a velocidade do pato é a velocidade de andar
-        if (energy < 100) energy += 0.5;   // se a energia for menor que 100 ela recebe um valor de recuperacao
+        if (duckEnergy < 100) duckEnergy += 0.5;   // se a energia for menor que 100 ela recebe um valor de recuperacao
     }
 
     if (keys.w) duckPos.posY -= currentVelocity;    // se W estiver sendo apertado entao o pato sobe algumas posicoes em Y ***
@@ -54,5 +59,12 @@ export function moveDuck() {
     duck.style.left = duckPos.posX + "px";          // atualiza a posicao x do pato
     duck.style.top = duckPos.posY + "px";           // atualiza a posicao y do pato
 }
-
 // *** Como a coordenada Y é invertida entao os valores negativos em Y fazem objetos subirem
+
+export function takeDamage(damage, enemy){
+    if (duckInvincible){ return }
+    duckLife -= damage;
+    if (enemy == "dog"){
+        duckConfuse = true;
+    }
+}
