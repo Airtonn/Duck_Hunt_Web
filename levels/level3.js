@@ -1,10 +1,10 @@
-import { moveDuck, spawnDogs, updateDogs, updateBullets } from '../index.js';
+import { moveDuck, spawnDogs, updateDogs, updateBullets, duckPos } from '../index.js';
 
 spawnDogs();
 
 function gameLoop() {
     moveDuck();
-    updateDogs();
+    updateDogs(duckPos);
     updateBullets();
 
     requestAnimationFrame(gameLoop);

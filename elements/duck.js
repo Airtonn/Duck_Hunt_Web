@@ -1,6 +1,5 @@
 export const duck = document.getElementById("duck");
-export let posX = 0;
-export let posY = 0;
+export let duckPos = {posX: 0, posY: 0};
 const velocity = 5;
 export let energy = 100;
 const costRun = 10;
@@ -36,16 +35,16 @@ export function moveDuck() {
         if (energy < 100) energy += 0.5;
     }
 
-    if (keys.w) posY -= currentVelocity;
-    if (keys.s) posY += currentVelocity;
-    if (keys.a) { posX -= currentVelocity; duck.style.transform = "scale(-1, 1)"; }
-    if (keys.d) { posX += currentVelocity; duck.style.transform = "scale(1, 1)"; }
+    if (keys.w) duckPos.posY -= currentVelocity;
+    if (keys.s) duckPos.posY += currentVelocity;
+    if (keys.a) { duckPos.posX -= currentVelocity; duck.style.transform = "scale(-1, 1)"; }
+    if (keys.d) { duckPos.posX += currentVelocity; duck.style.transform = "scale(1, 1)"; }
 
-    if (posX < 0) posX = 0;
-    else if (posX > widthScreen - widthDuck) posX = widthScreen - widthDuck;
-    if (posY < 0) posY = 0;
-    else if (posY > heightScreen - heightDuck) posY = heightScreen - heightDuck;
+    if (duckPos.posX < 0) duckPos.posX = 0;
+    else if (duckPos.posX > widthScreen - widthDuck) duckPos.posX = widthScreen - widthDuck;
+    if (duckPos.posY < 0) duckPos.posY = 0;
+    else if (duckPos.posY > heightScreen - heightDuck) duckPos.posY = heightScreen - heightDuck;
 
-    duck.style.left = posX + "px";
-    duck.style.top = posY + "px";
+    duck.style.left = duckPos.posX + "px";
+    duck.style.top = duckPos.posY + "px";
 }

@@ -1,5 +1,3 @@
-import { posX, posY } from './duck.js';
-
 const heightScreen = window.innerHeight;
 const widthScreen = window.innerWidth;
 const heightDuck = 100;
@@ -25,13 +23,13 @@ export function spawnDogs() {
     }
 }
 
-export function updateDogs() {
+export function updateDogs(duckPos) {
     dogs.forEach(dog => {
         let moveX = 0;
         let moveY = 0;
 
-        const diffX = posX - dog.posX;
-        const diffY = posY - dog.posY;
+        const diffX = duckPos.posX - dog.posX;
+        const diffY = duckPos.posY - dog.posY;
         const distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
         if (distance > 5) {
