@@ -1,8 +1,8 @@
 const BULLET_SPEED = 15;
-const BULLET_SIZE  = 12;
+const BULLET_SIZE  = 15;
 
 const COLORS = {
-    "duck":   "#4fc3f7", // azul claro
+    "duck":   "#38cdff", // azul claro
     "hunter": "#ff5252"  // vermelho — troca pela cor que quiser
 };
 

@@ -5,7 +5,7 @@ const widthDuck = 100;
 const heightDog = 100;
 const widthDog = 100;
 
-const dogVelocity = 8;
+const dogVelocity = 10;
 const numDogs = 4;
 
 export const dogs = [];

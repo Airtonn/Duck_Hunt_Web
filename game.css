@@ -32,7 +32,7 @@ body {
     position: absolute;
     border-radius: 50%;                         /* forma circular */
     background-color: #ffffff;                  /* azul claro */
-    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.8); /* brilho ao redor */
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8); /* brilho ao redor */
     pointer-events: none;                       /* não interfere com cliques */
     z-index: 10;
 }
