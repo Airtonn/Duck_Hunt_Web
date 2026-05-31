@@ -1,6 +1,6 @@
-import { moveDuck, spawnDogs, updateDogs, updateBullets, duckPos } from '../index.js';
+import { moveDuck, spawnDogs, updateDogs, updateBullets, duckPos} from '../index.js';
 
-spawnDogs();
+spawnDogs(duckPos);
 
 function gameLoop() {
     moveDuck();
@@ -8,6 +8,9 @@ function gameLoop() {
     updateBullets();
 
     requestAnimationFrame(gameLoop);
+    document.body.addEventListener("dogHit", () => {
+        console.log("dano");
+    });
 }
 
 gameLoop();

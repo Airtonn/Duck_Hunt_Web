@@ -2,62 +2,114 @@ const heightScreen = window.innerHeight;
 const widthScreen = window.innerWidth;
 const heightDuck = 100;
 const widthDuck = 100;
+const heightDog = 100;
+const widthDog = 100;
 
-const dogVelocity = 2.5;
-const separationDistance = 100;
-const numDogs = 3;
+const dogVelocity = 8;
+const numDogs = 4;
 
 export const dogs = [];
 
-export function spawnDogs() {
+function spawnPositionAndDirection(duckPos) {
+    // Escolhe um dos 4 lados da tela para spawnar
+    const side = Math.floor(Math.random() * 4); // 0=top, 1=bottom, 2=left, 3=right
+    let posX, posY;
+
+    if (side === 0) {        // topo
+        posX = Math.random() * widthScreen;
+        posY = -heightDog;
+    } else if (side === 1) { // baixo
+        posX = Math.random() * widthScreen;
+        posY = heightScreen + heightDog;
+    } else if (side === 2) { // esquerda
+        posX = -widthDog;
+        posY = Math.random() * heightScreen;
+    } else {                 // direita
+        posX = widthScreen + widthDog;
+        posY = Math.random() * heightScreen;
+    }
+
+    // Direção fixa em linha reta em direção ao pato no momento do spawn
+    const diffX = duckPos.posX - posX;
+    const diffY = duckPos.posY - posY;
+    const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+    return {
+        posX,
+        posY,
+        velX: (diffX / distance) * dogVelocity,
+        velY: (diffY / distance) * dogVelocity,
+    };
+}
+
+function isOutOfScreen(dog) {
+    return (
+        dog.posX + widthDog < 0 ||
+        dog.posX > widthScreen ||
+        dog.posY + heightDog < 0 ||
+        dog.posY > heightScreen
+    );
+}
+
+export function spawnDogs(duckPos) {
     for (let i = 0; i < numDogs; i++) {
         const dogElement = document.createElement("div");
         dogElement.classList.add("dog");
         document.body.appendChild(dogElement);
 
+        const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos);
+
         dogs.push({
             element: dogElement,
-            posX: Math.random() * (widthScreen - widthDuck),
-            posY: Math.random() * (heightScreen - heightDuck)
+            posX,
+            posY,
+            velX,
+            velY,
+            alive: true,        // controle de vida — sete false externamente quando HP chegar a 0
+            hasDealtDamage: false,
         });
     }
 }
 
 export function updateDogs(duckPos) {
     dogs.forEach(dog => {
-        let moveX = 0;
-        let moveY = 0;
+        // Cachorro morto não faz nada
+        if (!dog.alive) return;
 
-        const diffX = duckPos.posX - dog.posX;
-        const diffY = duckPos.posY - dog.posY;
-        const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+        // Move em linha reta com a velocidade/direção fixada no spawn
+        dog.posX += dog.velX;
+        dog.posY += dog.velY;
 
-        if (distance > 5) {
-            moveX += (diffX / distance) * dogVelocity;
-            moveY += (diffY / distance) * dogVelocity;
+        // Espelha sprite conforme direção horizontal
+        if (dog.velX < 0) dog.element.style.transform = "scale(1, 1)";
+        else if (dog.velX > 0) dog.element.style.transform = "scale(-1, 1)";
+
+        // Verifica colisão com o pato (AABB simples)
+        if (!dog.hasDealtDamage) {
+            const colliding =
+                dog.posX < duckPos.posX + widthDuck &&
+                dog.posX + widthDog > duckPos.posX &&
+                dog.posY < duckPos.posY + heightDuck &&
+                dog.posY + heightDog > duckPos.posY;
+
+            if (colliding) {
+                dog.hasDealtDamage = true;
+                dog.element.dispatchEvent(new CustomEvent("dogHit", { bubbles: true }));
+            }
         }
 
-        dogs.forEach(otherDog => {
-            if (dog === otherDog) return;
-            const dx = dog.posX - otherDog.posX;
-            const dy = dog.posY - otherDog.posY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < separationDistance) {
-                moveX += (dx / dist) * 1.5;
-                moveY += (dy / dist) * 1.5;
-            }
-        });
-
-        dog.posX += moveX;
-        dog.posY += moveY;
-
-        if (moveX < 0) dog.element.style.transform = "scale(1, 1)";
-        else if (moveX > 0) dog.element.style.transform = "scale(-1, 1)";
-
-        if (dog.posX < 0) dog.posX = 0;
-        else if (dog.posX > widthScreen - widthDuck) dog.posX = widthScreen - widthDuck;
-        if (dog.posY < 0) dog.posY = 0;
-        else if (dog.posY > heightScreen - heightDuck) dog.posY = heightScreen - heightDuck;
+        // Saiu da tela: relança automaticamente em direção ao pato
+        if (isOutOfScreen(dog)) {
+            const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos);
+            dog.posX = posX;
+            dog.posY = posY;
+            dog.velX = velX;
+            dog.velY = velY;
+            dog.hasDealtDamage = false;
+            dog.element.style.left = dog.posX + "px";
+            dog.element.style.top = dog.posY + "px";
+            return;
+        }
 
         dog.element.style.left = dog.posX + "px";
         dog.element.style.top = dog.posY + "px";

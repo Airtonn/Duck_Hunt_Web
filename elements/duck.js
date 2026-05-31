@@ -1,5 +1,5 @@
 export const duck = document.getElementById("duck");
-export let duckPos = {posX: 0, posY: 0};
+export let duckPos = {posX: 500, posY: 500};
 const velocity = 5;
 export let energy = 100;
 const costRun = 10;
@@ -10,6 +10,10 @@ const heightDuck = duck.offsetHeight || 100;
 const widthDuck = duck.offsetWidth || 100;
 
 export const keys = { w: false, a: false, s: false, d: false, shift: false };
+
+duck.style.left = duckPos.posX + "px";
+duck.style.top = duckPos.posY + "px";
+
 
 document.addEventListener("keydown", function (event) {
     const button = event.key.toLowerCase();
