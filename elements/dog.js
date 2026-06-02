@@ -1,6 +1,6 @@
 const heightScreen = window.innerHeight;        // altura da tela
 const widthScreen = window.innerWidth;          // largura da tela
-const heightDuck = 100;                     
+const heightDuck = 100;
 const widthDuck = 100;
 const dogHeight = 100;
 const dogWidth = 100;
@@ -62,6 +62,8 @@ export function spawnDogs(duckPos, numDogs, dogVelocity) {
             posY,
             velX,
             velY,
+            speed: dogVelocity,
+            baseSpeed: dogVelocity,
             alive: true,        // controle de vida — sete false externamente quando HP chegar a 0
             hasDealtDamage: false,
         });
@@ -97,7 +99,7 @@ export function updateDogs(duckPos, dogVelocity) {
 
         // Saiu da tela: relança automaticamente em direção ao pato
         if (isOutOfScreen(dog)) {
-            const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dogVelocity);
+            const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dog.speed);
             dog.posX = posX;
             dog.posY = posY;
             dog.velX = velX;
@@ -111,4 +113,23 @@ export function updateDogs(duckPos, dogVelocity) {
         dog.element.style.left = dog.posX + "px";
         dog.element.style.top = dog.posY + "px";
     });
+}
+
+export function hitDog(dog) {
+    // Reduz a velocidade em 30% a cada acerto
+    dog.speed *= 0.7;
+
+    // Recalcula as velocidades velX e velY mantendo a direção atual
+    const currentSpeed = Math.hypot(dog.velX, dog.velY);
+    if (currentSpeed > 0) {
+        const ratio = dog.speed / currentSpeed;
+        dog.velX *= ratio;
+        dog.velY *= ratio;
+    }
+
+    // Feedback visual opcional (piscar vermelho)
+    dog.element.style.filter = "brightness(2) sepia(1) hue-rotate(-50deg) saturate(5)";
+    setTimeout(() => {
+        if (dog.element) dog.element.style.filter = "none";
+    }, 100);
 }
