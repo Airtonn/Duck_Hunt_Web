@@ -56,7 +56,7 @@ export function spawnDogs(duckPos, numDogs, dogVelocity) {
 
         const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dogVelocity);
 
-        dogs.push({
+        const dog = {
             element: dogElement,
             posX,
             posY,
@@ -66,7 +66,17 @@ export function spawnDogs(duckPos, numDogs, dogVelocity) {
             baseSpeed: dogVelocity,
             alive: true,        // controle de vida — sete false externamente quando HP chegar a 0
             hasDealtDamage: false,
+        };
+
+        // Trata o evento do cachorro ser atingido por um tiro
+        dogElement.addEventListener("dogShot", () => {
+            dog.posX = -1000;
+            dog.posY = -1000;
+            dog.element.style.left = "-1000px";
+            dog.element.style.top = "-1000px";
         });
+
+        dogs.push(dog);
     }
 }
 
@@ -82,20 +92,6 @@ export function updateDogs(duckPos, dogVelocity) {
         // Espelha sprite conforme direção horizontal
         if (dog.velX < 0) dog.element.style.transform = "scale(1, 1)";
         else if (dog.velX > 0) dog.element.style.transform = "scale(-1, 1)";
-
-        // Verifica colisão com o pato (AABB simples)
-        if (!dog.hasDealtDamage) {
-            const colliding =
-                dog.posX < duckPos.posX + widthDuck &&
-                dog.posX + dogWidth > duckPos.posX &&
-                dog.posY < duckPos.posY + heightDuck &&
-                dog.posY + dogHeight > duckPos.posY;
-
-            if (colliding) {
-                dog.hasDealtDamage = true;
-                dog.element.dispatchEvent(new CustomEvent("dogHit", { bubbles: true }));
-            }
-        }
 
         // Saiu da tela: relança automaticamente em direção ao pato
         if (isOutOfScreen(dog)) {
