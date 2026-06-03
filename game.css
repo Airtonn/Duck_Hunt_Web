@@ -7,6 +7,7 @@ body {
   background-image: url("images/hunter_duck_background.png");
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
 }
 
 #duck,
@@ -42,15 +43,36 @@ body {
   z-index: 10;
 }
 
-#score {
-  color: white;
-  background-color: black;
-  margin-left: 30px;
-  width: 10%;
-  font-size: 40px;
-  text-align: center;
-  border-radius: 20px;
+#scoreBox {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: #2e2e2e;
+  border: 0.5px solid #555;
+  border-radius: 6px;
+  padding: 8px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
   user-select: none;
+  min-width: 90px;
+}
+
+.score-label {
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  font-family: monospace;
+  text-align: center;
+}
+
+#score {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
 }
 
 #ammo {

@@ -74,3 +74,9 @@ export function takeDamage(damage, enemy){
     }
     lifeTextValue.textContent = Math.floor(duckLife);
 }
+
+// funcao para alterar o valor de energia do pato externamente
+export function setDuckEnergy(value) {
+    duckEnergy = value;                                 // define o novo valor de energia
+    energyTextValue.textContent = Math.floor(duckEnergy); // atualiza o texto na interface
+}

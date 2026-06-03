@@ -1,15 +1,19 @@
 const heightScreen = window.innerHeight;        // altura da tela
 const widthScreen = window.innerWidth;          // largura da tela
-const heightDuck = 100;
-const widthDuck = 100;
-const dogHeight = 100;
-const dogWidth = 100;
+const heightDuck = 100;                         // altura do pato (mantida para compatibilidade)
+const widthDuck = 100;                          // largura do pato (mantida para compatibilidade)
+const dogHeight = 100;                          // altura do cachorro
+const dogWidth = 100;                           // largura do cachorro
+const delayRespawn = 2000;                      // tempo de delay para ressurgimento do cachorro (2 segundos)
+const offscreenCoord = -1000;                   // coordenada fora da tela para esconder o cachorro
+const timeToMaxSpeed = 60000;                   // tempo em milissegundos para atingir a velocidade maxima (60 segundos)
 
-export const dogs = [];
+export const dogs = [];                         // array responsavel por guardar os cachorros criados
+let startTime = null;                           // marca o tempo de inicio do jogo para calcular a velocidade
 
+// funcao que calcula a posicao inicial de spawn e velocidade/direcao em direcao ao pato
 function spawnPositionAndDirection(duckPos, dogVelocity) {
-    // Escolhe um dos 4 lados da tela para spawnar
-    const side = Math.floor(Math.random() * 4); // 0=top, 1=bottom, 2=left, 3=right
+    const side = Math.floor(Math.random() * 4); // Escolhe um dos 4 lados da tela (0=top, 1=bottom, 2=left, 3=right)
     let posX, posY;
 
     if (side === 0) {        // topo
@@ -39,6 +43,7 @@ function spawnPositionAndDirection(duckPos, dogVelocity) {
     };
 }
 
+// funcao para verificar se o cachorro saiu totalmente da tela
 function isOutOfScreen(dog) {
     return (
         dog.posX + dogWidth < 0 ||
@@ -48,74 +53,102 @@ function isOutOfScreen(dog) {
     );
 }
 
+// funcao para ativar o delay de ressurgimento do cachorro, escondendo-o
+function triggerRespawn(dog) {
+    dog.respawning = true;                              // ativa o estado de ressurgimento
+    dog.respawnAt = Date.now() + delayRespawn;          // calcula o momento exato em que ele deve reaparecer
+    dog.element.style.display = "none";                 // esconde o elemento na tela
+    dog.posX = offscreenCoord;                          // joga a posicao logica X para longe
+    dog.posY = offscreenCoord;                          // joga a posicao logica Y para longe
+    dog.element.style.left = offscreenCoord + "px";      // atualiza a posicao X no css
+    dog.element.style.top = offscreenCoord + "px";       // atualiza a posicao Y no css
+    dog.hasDealtDamage = false;                         // permite causar dano novamente no proximo spawn
+}
+
+// funcao para spawnar/criar os cachorros iniciais
 export function spawnDogs(duckPos, numDogs, dogVelocity) {
+    if (startTime === null) startTime = Date.now();     // define o tempo de inicio do jogo
     for (let i = 0; i < numDogs; i++) {
-        const dogElement = document.createElement("div");
-        dogElement.classList.add("dog");
-        document.body.appendChild(dogElement);
+        const dogElement = document.createElement("div"); // cria o elemento div do cachorro
+        dogElement.classList.add("dog");                  // adiciona a classe css .dog
+        document.body.appendChild(dogElement);            // adiciona o cachorro ao corpo do documento
 
         const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dogVelocity);
 
         const dog = {
-            element: dogElement,
-            posX,
-            posY,
-            velX,
-            velY,
-            speed: dogVelocity,
-            baseSpeed: dogVelocity,
-            alive: true,        // controle de vida — sete false externamente quando HP chegar a 0
-            hasDealtDamage: false,
+            element: dogElement,                        // elemento html do cachorro
+            posX,                                       // posicao x do cachorro
+            posY,                                       // posicao y do cachorro
+            velX,                                       // velocidade x do cachorro
+            velY,                                       // velocidade y do cachorro
+            speed: dogVelocity,                         // velocidade atual do cachorro
+            baseSpeed: dogVelocity,                     // velocidade base de spawn
+            alive: true,                                // controle de vida — sete false externamente quando HP chegar a 0
+            hasDealtDamage: false,                      // verifica se ja causou dano ao pato
+            respawning: false,                          // controle de delay para ressurgir
+            respawnAt: 0,                               // momento do ressurgimento
         };
 
         // Trata o evento do cachorro ser atingido por um tiro
         dogElement.addEventListener("dogShot", () => {
-            dog.posX = -1000;
-            dog.posY = -1000;
-            dog.element.style.left = "-1000px";
-            dog.element.style.top = "-1000px";
+            triggerRespawn(dog);                        // inicia o delay para ressurgir
         });
 
-        dogs.push(dog);
+        dogs.push(dog);                                 // insere o cachorro na lista global
     }
 }
 
+// funcao para atualizar movimentacao, sprite e ressurgimento dos cachorros
 export function updateDogs(duckPos, dogVelocity) {
+    if (startTime === null) startTime = Date.now();     // garante que o tempo de inicio esteja definido
+    const elapsedTime = Date.now() - startTime;          // calcula o tempo decorrido
+    const progress = Math.min(elapsedTime / timeToMaxSpeed, 1); // calcula o progresso de 0 a 1 ate a velocidade maxima
+    const speedMultiplier = 1 + progress * 2;            // calcula o multiplicador de velocidade de 1x a 3x
+
     dogs.forEach(dog => {
-        // Cachorro morto não faz nada
+        // Cachorro morto nao faz nada
         if (!dog.alive) return;
 
-        // Move em linha reta com a velocidade/direção fixada no spawn
-        dog.posX += dog.velX;
-        dog.posY += dog.velY;
-
-        // Espelha sprite conforme direção horizontal
-        if (dog.velX < 0) dog.element.style.transform = "scale(1, 1)";
-        else if (dog.velX > 0) dog.element.style.transform = "scale(-1, 1)";
-
-        // Saiu da tela: relança automaticamente em direção ao pato
-        if (isOutOfScreen(dog)) {
-            const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dog.speed);
-            dog.posX = posX;
-            dog.posY = posY;
-            dog.velX = velX;
-            dog.velY = velY;
-            dog.hasDealtDamage = false;
-            dog.element.style.left = dog.posX + "px";
-            dog.element.style.top = dog.posY + "px";
+        // Se o cachorro está no processo de ressurgir, verifica se o tempo de delay passou
+        if (dog.respawning) {
+            if (Date.now() >= dog.respawnAt) {          // se ja passou o tempo do delay
+                const { posX, posY, velX, velY } = spawnPositionAndDirection(duckPos, dogVelocity);
+                dog.posX = posX;                        // atualiza posicao x
+                dog.posY = posY;                        // atualiza posicao y
+                dog.velX = velX;                        // atualiza velocidade x
+                dog.velY = velY;                        // atualiza velocidade y
+                dog.respawning = false;                 // desmarca a flag de ressurgimento
+                dog.element.style.display = "block";    // volta a mostrar o elemento na tela
+                dog.element.style.left = dog.posX + "px";  // atualiza o estilo x
+                dog.element.style.top = dog.posY + "px";   // atualiza o estilo y
+            }
             return;
         }
 
-        dog.element.style.left = dog.posX + "px";
-        dog.element.style.top = dog.posY + "px";
+        // Move em linha reta aplicando o multiplicador de velocidade ao longo do tempo
+        dog.posX += dog.velX * speedMultiplier;
+        dog.posY += dog.velY * speedMultiplier;
+
+        // Espelha sprite conforme direcao horizontal
+        if (dog.velX < 0) dog.element.style.transform = "scale(1, 1)";
+        else if (dog.velX > 0) dog.element.style.transform = "scale(-1, 1)";
+
+        // Saiu da tela: inicia o delay para ressurgimento
+        if (isOutOfScreen(dog)) {
+            triggerRespawn(dog);                        // inicia o delay para ressurgir
+            return;
+        }
+
+        dog.element.style.left = dog.posX + "px";       // atualiza posicao x no css
+        dog.element.style.top = dog.posY + "px";        // atualiza posicao y no css
     });
 }
 
+// funcao para tratar colisoes/tiros adicionais (reduz velocidade)
 export function hitDog(dog) {
-    // Reduz a velocidade em 30% a cada acerto
-    dog.speed *= 0.7;
+    dog.speed *= 0.7;                                    // reduz a velocidade em 30% a cada acerto
 
-    // Recalcula as velocidades velX e velY mantendo a direção atual
+    // Recalcula as velocidades velX e velY mantendo a direcao atual
     const currentSpeed = Math.hypot(dog.velX, dog.velY);
     if (currentSpeed > 0) {
         const ratio = dog.speed / currentSpeed;

@@ -2,6 +2,7 @@ import { bullets } from './shoot.js';
 import { dogs } from './dog.js';
 import { addPoint } from './score.js';
 import { takeDamage } from './duck.js';
+import { energyItem, collectEnergy } from './energy.js';
 
 export function verifyColision(duckPos, widthDuck, heightDuck) {
     // Colisão: Bala vs Cachorro
@@ -11,7 +12,7 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
 
         for (let j = dogs.length - 1; j >= 0; j--) {
             const dog = dogs[j];
-            if (!dog.alive) continue;
+            if (!dog.alive || dog.respawning) continue;
 
             const hitDog =
                 bullet.x < dog.posX + 100 &&
@@ -36,7 +37,7 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
 
     // Colisão: Cachorro vs Pato (Jogador)
     dogs.forEach(dog => {
-        if (!dog.alive || dog.hasDealtDamage) return;
+        if (!dog.alive || dog.respawning || dog.hasDealtDamage) return;
 
         const hitDuck =
             dog.posX < duckPos.posX + widthDuck &&
@@ -54,4 +55,17 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
             dog.element.dispatchEvent(new CustomEvent("dogHit", { bubbles: true }));
         }
     });
+
+    // Colisão: Pato vs Item de Energia
+    if (energyItem) {
+        const hitEnergy =
+            duckPos.posX < energyItem.posX + 50 &&
+            duckPos.posX + widthDuck > energyItem.posX &&
+            duckPos.posY < energyItem.posY + 50 &&
+            duckPos.posY + heightDuck > energyItem.posY;
+
+        if (hitEnergy) {
+            collectEnergy();
+        }
+    }
 }

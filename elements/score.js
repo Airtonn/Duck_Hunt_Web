@@ -7,11 +7,11 @@ if (scoreElement) {
     scoreElement.innerText = currentScore.toString().padStart(5, '0');
 }
 
-function saveScore() {
+function saveScore() {//adiciona o salvamento do score
     localStorage.setItem('duck_hunt_score', currentScore);
 }
 
-export function addPoint(amount) {
+export function addPoint(amount) {//adiciona a pontuacao 
     currentScore += amount;
     if (currentScore < 0) currentScore = 0;
 
@@ -19,7 +19,7 @@ export function addPoint(amount) {
     saveScore();
 }
 
-export function resetScore() {
+export function resetScore() {//reseta o score (se precisar ir pra outra fase)
     currentScore = 0;
     scoreElement.innerText = "00000";
     saveScore();
