@@ -1,4 +1,4 @@
-import { bullets } from './shoot.js';
+import { bullets, triggerPenaltyReload } from './shoot.js';
 import { dogs } from './dog.js';
 import { addPoint } from './score.js';
 import { takeDamage } from './duck.js';
@@ -50,6 +50,7 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
 
             // Causa dano ao pato
             takeDamage(10, "dog");
+            triggerPenaltyReload();
 
             // Dispara o evento CustomEvent para compatibilidade
             dog.element.dispatchEvent(new CustomEvent("dogHit", { bubbles: true }));

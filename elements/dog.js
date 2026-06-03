@@ -11,7 +11,7 @@ const timeToMaxSpeed = 60000;                   // tempo em milissegundos para a
 export const dogs = [];                         // array responsavel por guardar os cachorros criados
 let startTime = null;                           // marca o tempo de inicio do jogo para calcular a velocidade
 
-// funcao que calcula a posicao inicial de spawn e velocidade/direcao em direcao ao pato
+//funcao que calcula a posicao inicial de spawn e velocidade/direcao em direcao ao pato
 function spawnPositionAndDirection(duckPos, dogVelocity) {
     const side = Math.floor(Math.random() * 4); // Escolhe um dos 4 lados da tela (0=top, 1=bottom, 2=left, 3=right)
     let posX, posY;

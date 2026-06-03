@@ -28,3 +28,8 @@ export function reload() {
 export function getAmmo() {
   return currentAmmo;
 }
+
+export function emptyAmmo() {
+  currentAmmo = 0;
+  updateAmmoDisplay();
+}

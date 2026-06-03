@@ -1,4 +1,4 @@
-import { consumeBullet, reload, getAmmo } from './ammo.js';
+import { consumeBullet, reload, getAmmo, emptyAmmo } from './ammo.js';
 import { dogs } from './dog.js';
 import { duck, duckPos, duckWidth, duckHeight } from './duck.js';
 
@@ -22,6 +22,12 @@ function startReload() {
     reload();
     isReloading = false;
   }, RELOAD_TIME);
+}
+
+export function triggerPenaltyReload() {
+  if (isReloading) return;
+  emptyAmmo();
+  startReload();
 }
 
 export function isShooterReloading() { return isReloading; }
