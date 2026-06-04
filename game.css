@@ -175,3 +175,89 @@ body {
   font-weight: bold;
   color: rgb(0, 0, 0);
 }
+
+/* --- Menu and Instructions Styles --- */
+
+#main-menu,
+#instructions {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#main-menu {
+  background-image: url("images/Duck_Hunt_Menu.png");
+}
+
+#instructions {
+  background-image: url("images/hunter_duck_background.png");
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-btn {
+  padding: 15px 30px;
+  font-size: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff0000; /* Red as requested */
+  border: 4px solid #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform 0.1s, background-color 0.1s;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.menu-btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.menu-btn:active {
+  transform: scale(0.95);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.instructions-content {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 30px;
+  border: 5px solid #000;
+  max-width: 600px;
+  text-align: center;
+  color: #000; 
+}
+
+.instructions-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #ff0000;
+}
+
+.instructions-text {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.instructions-text ul {
+  padding-left: 20px;
+}
