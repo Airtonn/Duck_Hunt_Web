@@ -1,7 +1,7 @@
 import {
     moveDuck, spawnDogs, updateDogs, updateBullets, duckPos, duckLife,
     spawnBullet, verifyColision, spawnEnergyItem, spawnLifeItem, spawnHunters, resetScore, reload,
-    resetDogs, resetHunters, resetBullets, resetDuck, getScore
+    resetDogs, resetHunters, resetBullets, resetDuck, getScore, resetEnergyItem, resetLifeItem
 } from '../index.js';
 
 let isPaused = false;
