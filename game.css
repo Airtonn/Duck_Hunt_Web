@@ -11,7 +11,7 @@ body {
 }
 
 #duck,
-.dog {
+.dog, .hunter {
   position: absolute;
   background-repeat: no-repeat;
   background-size: contain;
@@ -28,6 +28,12 @@ body {
   background-image: url("images/dog.png");
   width: 15%;
   height: 20%;
+}
+
+.hunter {
+    width: 15%;
+    height: 20%;
+    background-image: url('images/hunter.png');
 }
 
 .bullet {

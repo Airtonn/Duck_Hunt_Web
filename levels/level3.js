@@ -1,6 +1,6 @@
 import {
     moveDuck, spawnDogs, updateDogs, updateBullets, duckPos, duckWidth, duckHeight,
-    spawnBullet, verifyColision, spawnEnergyItem
+    spawnBullet, verifyColision, spawnEnergyItem, spawnHunters
 } from '../index.js';
 
 document.addEventListener('startGame', () => {
@@ -9,6 +9,7 @@ document.addEventListener('startGame', () => {
     // elementos no HTML e travando o navegador por sobrecarga de memoria e processamento.
     spawnDogs(duckPos, 4, 10);                               // cria os 4 cachorros iniciais na tela
     spawnEnergyItem();                                       // cria o item de energia inicial na tela
+    spawnHunters(2);                                         // cria os 2 caçadores
 
     // funcao do loop principal do jogo (executada aproximadamente 60 vezes por segundo)
     function gameLoop() {
