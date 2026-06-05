@@ -7,6 +7,8 @@ export * from './elements/collision.js'
 export * from './elements/energy.js'
 export * from './elements/hunter.js'
 export * from './elements/life.js'
+export { resetEnergyItem } from './elements/energy.js';
+export { resetLifeItem } from './elements/life.js';
 
 
 // arquivo para organizar e centralizar todos os imports dos arquivos js usados no jogo
