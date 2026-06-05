@@ -34,14 +34,14 @@ function gameLoop() {
 }
 
 function triggerGameOver() {
-    console.log("Level 2: GAME OVER");
+    console.log("Level 3: GAME OVER");
     gameStarted = false;
 
     const currentScore = getScore();
-    const highScore = parseInt(localStorage.getItem('duck_hunt_record_level2') || '0', 10);
+    const highScore = parseInt(localStorage.getItem('duck_hunt_record_level3') || '0', 10);
 
     if (currentScore > highScore) {
-        localStorage.setItem('duck_hunt_record_level2', currentScore);
+        localStorage.setItem('duck_hunt_record_level3', currentScore);
     }
 
     const finalScoreEl = document.getElementById('current-game-score');
@@ -62,7 +62,7 @@ function togglePause() {
 }
 
 function startNewGame() {
-    console.log("Level 2: Starting new game");
+    console.log("Level 3: Starting new game");
     // Soft reset: reset states and re-spawn elements
     resetScore();
     resetDuck();
@@ -72,10 +72,10 @@ function startNewGame() {
     resetEnergyItem();
     resetLifeItem();
 
-    spawnDogs(duckPos, 2, 7);                                // cria os 2 cachorros iniciais na tela (vel reduzida)
+    spawnDogs(duckPos, 4, 7);                                // cria os 4 cachorros iniciais na tela (vel reduzida)
     spawnEnergyItem();                                       // cria o item de energia inicial na tela
     spawnLifeItem();                                         // cria o item de vida inicial na tela
-    spawnHunters(2);                                         // cria os 2 caçadores
+    // spawnHunters(2);                                         // cria os 2 caçadores
 
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
     gameStarted = true;
@@ -115,7 +115,7 @@ function backToMenu(e) {
 menuBtn.addEventListener('click', backToMenu);
 menuGameOverBtn.addEventListener('click', backToMenu);
 
-document.addEventListener('startLevel2', () => {
+document.addEventListener('startLevel3', () => {
     startNewGame();
 });
 
@@ -124,7 +124,7 @@ document.addEventListener('startLevel1', () => {
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
 });
 
-document.addEventListener('startLevel3', () => {
+document.addEventListener('startLevel2', () => {
     gameStarted = false;
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
 });
