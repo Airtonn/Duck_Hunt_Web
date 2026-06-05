@@ -83,7 +83,7 @@ document.body.addEventListener("dogHit", () => {
 
 // Evento de clique de mouse para disparo
 document.addEventListener("mousedown", function (event) {
-    if (isPaused || (!gameStarted && !document.getElementById('game-ui').style.display === 'block')) return;
+    if (isPaused || (!gameStarted && document.getElementById('game-ui').style.display !== 'block')) return;
     if (event.target.closest('#pause-btn') || event.target.closest('#pause-menu')) return;
 
     if (event.button === 0) {                            // se o botao esquerdo do mouse for clicado
