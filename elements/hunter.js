@@ -46,6 +46,14 @@ export function spawnHunters(numHunters) {
         el.classList.add("hunter");
         el.style.left = corner.x + "px";
         el.style.top = corner.y + "px";
+
+        // Flip sprite if on left side of screen
+        if (corner.x < window.innerWidth / 2) {
+            el.style.transform = "scale(-1, 1)";
+        } else {
+            el.style.transform = "scale(1, 1)";
+        }
+
         document.body.appendChild(el);
 
         const hunter = {
@@ -124,6 +132,14 @@ function _respawnHunter(hunter) {
     el.classList.add("hunter");
     el.style.left = corner.x + "px";
     el.style.top = corner.y + "px";
+
+    // Flip sprite if on left side of screen
+    if (corner.x < window.innerWidth / 2) {
+        el.style.transform = "scale(-1, 1)";
+    } else {
+        el.style.transform = "scale(1, 1)";
+    }
+
     document.body.appendChild(el);
 
     hunter.element = el;
