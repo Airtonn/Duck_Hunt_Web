@@ -37,9 +37,9 @@ function startNewGame() {
     resetHunters();
     resetBullets();
 
-    spawnDogs(duckPos, 4, 10);                               // cria os 4 cachorros iniciais na tela
+    spawnDogs(duckPos, 1, 10);                               // cria o cachorro na tela
     spawnEnergyItem();                                       // cria o item de energia inicial na tela
-    // spawnHunters(2);                                         // cria os 2 caçadores
+    spawnHunters(1);                                         // cria o caçador
 
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
     gameLoop();                                              // inicia a execucao do loop de jogo
