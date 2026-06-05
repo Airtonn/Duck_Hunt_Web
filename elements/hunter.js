@@ -1,9 +1,9 @@
 import { spawnBullet } from './shoot.js';
 
-const HUNTER_WIDTH  = 100;
+const HUNTER_WIDTH = 100;
 const HUNTER_HEIGHT = 100;
 const SHOOT_INTERVAL = 1800;   // ms entre tiros
-const HUNTER_HP      = 4;      // tiros necessários para derrubar
+const HUNTER_HP = 3;      // tiros necessários para derrubar
 
 export const hunters = [];     // array global de caçadores
 
@@ -17,14 +17,20 @@ function _randomCornerPos(cornerIndex) {
     const rand = (min, max) => min + Math.random() * (max - min);
 
     switch (cornerIndex) {
-        case 0: return { x: rand(MARGIN, MARGIN + SPREAD),               y: rand(MARGIN, MARGIN + SPREAD) };               // topo-esquerda
-        case 1: return { x: rand(W - HUNTER_WIDTH - MARGIN - SPREAD,
-                                  W - HUNTER_WIDTH - MARGIN),             y: rand(MARGIN, MARGIN + SPREAD) };               // topo-direita
-        case 2: return { x: rand(MARGIN, MARGIN + SPREAD),               y: rand(H - HUNTER_HEIGHT - MARGIN - SPREAD,
-                                                                                   H - HUNTER_HEIGHT - MARGIN) };           // baixo-esquerda
-        case 3: return { x: rand(W - HUNTER_WIDTH - MARGIN - SPREAD,
-                                  W - HUNTER_WIDTH - MARGIN),             y: rand(H - HUNTER_HEIGHT - MARGIN - SPREAD,
-                                                                                   H - HUNTER_HEIGHT - MARGIN) };           // baixo-direita
+        case 0: return { x: rand(MARGIN, MARGIN + SPREAD), y: rand(MARGIN, MARGIN + SPREAD) };               // topo-esquerda
+        case 1: return {
+            x: rand(W - HUNTER_WIDTH - MARGIN - SPREAD,
+                W - HUNTER_WIDTH - MARGIN), y: rand(MARGIN, MARGIN + SPREAD)
+        };               // topo-direita
+        case 2: return {
+            x: rand(MARGIN, MARGIN + SPREAD), y: rand(H - HUNTER_HEIGHT - MARGIN - SPREAD,
+                H - HUNTER_HEIGHT - MARGIN)
+        };           // baixo-esquerda
+        case 3: return {
+            x: rand(W - HUNTER_WIDTH - MARGIN - SPREAD,
+                W - HUNTER_WIDTH - MARGIN), y: rand(H - HUNTER_HEIGHT - MARGIN - SPREAD,
+                    H - HUNTER_HEIGHT - MARGIN)
+        };           // baixo-direita
     }
 }
 
@@ -38,22 +44,16 @@ export function spawnHunters(numHunters) {
 
         const el = document.createElement("div");
         el.classList.add("hunter");
-        el.style.left   = corner.x + "px";
-        el.style.top    = corner.y + "px";
+        el.style.left = corner.x + "px";
+        el.style.top = corner.y + "px";
         document.body.appendChild(el);
 
-        // Lê tamanho real do CSS após inserção no DOM
-        const realW = el.offsetWidth  || HUNTER_WIDTH;
-        const realH = el.offsetHeight || HUNTER_HEIGHT;
-
         const hunter = {
-            element:    el,
-            posX:       corner.x,
-            posY:       corner.y,
-            width:      realW,
-            height:     realH,
-            hp:         HUNTER_HP,
-            alive:      true,
+            element: el,
+            posX: corner.x,
+            posY: corner.y,
+            hp: HUNTER_HP,
+            alive: true,
             shootTimer: null,
         };
 
@@ -110,42 +110,21 @@ function _onHunterShot(hunter) {
     }
 }
 
-// ── Remove o caçador da tela e agenda respawn ────────────────
-const RESPAWN_DELAY = 5000; // 5 segundos
-
+// ── Remove o caçador da tela ──────────────────────────────────
 function _killHunter(hunter) {
     hunter.alive = false;
     clearInterval(hunter.shootTimer);
     hunter.element.remove();
-
-    setTimeout(() => {
-        _respawnHunter(hunter);
-    }, RESPAWN_DELAY);
-}
-
-function _respawnHunter(hunter) {
-    const cornerIndex = Math.floor(Math.random() * 4);
-    const corner = _randomCornerPos(cornerIndex);
-
-    const el = document.createElement("div");
-    el.classList.add("hunter");
-    el.style.left = corner.x + "px";
-    el.style.top  = corner.y + "px";
-    document.body.appendChild(el);
-
-    hunter.element = el;
-    hunter.posX    = corner.x;
-    hunter.posY    = corner.y;
-    hunter.width   = el.offsetWidth  || HUNTER_WIDTH;
-    hunter.height  = el.offsetHeight || HUNTER_HEIGHT;
-    hunter.hp      = HUNTER_HP;
-    hunter.alive   = true;
-
-    el.addEventListener("hunterShot", () => _onHunterShot(hunter));
-
-    _startShootLoop(hunter);
 }
 
 // ── Expõe largura/altura para uso externo (colisão) ──────────
-export const hunterWidth  = HUNTER_WIDTH;
+export const hunterWidth = HUNTER_WIDTH;
 export const hunterHeight = HUNTER_HEIGHT;
+
+export function resetHunters() {
+    hunters.forEach(hunter => {
+        if (hunter.shootTimer) clearInterval(hunter.shootTimer);
+        if (hunter.element) hunter.element.remove();
+    });
+    hunters.length = 0;
+}
