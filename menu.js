@@ -45,6 +45,12 @@ const initMenu = () => {
         mainMenu.style.display = 'flex';
     });
 
+    document.addEventListener('returnToMenu', () => {
+        console.log("Duck Hunt Menu: returnToMenu event received");
+        gameUI.style.display = 'none';
+        mainMenu.style.display = 'flex';
+    });
+
     console.log("Duck Hunt Menu: Initialization complete");
 };
 
