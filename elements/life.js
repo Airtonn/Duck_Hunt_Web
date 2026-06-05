@@ -60,3 +60,11 @@ export function collectLife() {
 
     updateLifeItemPosition();                   // atualiza a posicao na tela
 }
+
+export function resetLifeItem() {
+    if (lifeItem) {
+        lifeItem.element.remove();
+        lifeItem = null;
+    }
+}
+
