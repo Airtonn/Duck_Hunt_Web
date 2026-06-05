@@ -68,7 +68,8 @@
         <div class="instructions-content">
             <h1>Como Jogar</h1>
             <div class="instructions-text">
-                <p><strong>Objetivo:</strong> O objetivo do jogo é caçar os caçadores e evitar que os cachorros te atinjam.</p>
+                <p><strong>Objetivo:</strong> O objetivo do jogo é caçar os caçadores e evitar que os cachorros te
+                    atinjam.</p>
                 <p><strong>Controles:</strong></p>
                 <ul>
                     <li>Mova o mouse para mirar.</li>
@@ -77,6 +78,35 @@
                 </ul>
             </div>
             <button id="back-to-menu-btn" class="menu-btn">Voltar</button>
+        </div>
+    </div>
+
+    <!-- Level Selection Screen -->
+    <div id="level-selection" style="display: none;">
+        <div class="level-selection-content">
+            <h1>Selecionar Fase</h1>
+            <div class="level-buttons">
+                <button id="level1-btn" class="menu-btn">Fase 1: First Day</button>
+                <button id="level2-btn" class="menu-btn">Fase 2: Double trouble</button>
+                <button id="level3-btn" class="menu-btn">Fase 3: Dog day</button>
+            </div>
+            <button id="back-from-levels-btn" class="menu-btn">Voltar</button>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over" style="display: none;">
+        <div class="game-over-content">
+            <h1>GAME OVER!</h1>
+            <div class="game-over-scores">
+                <p>Pontuação: <span id="current-game-score">0</span></p>
+                <p>Recorde: <span id="best-record-score">0</span></p>
+            </div>
+            <img src="images/duck_confused.png" alt="Confused Duck" class="game-over-img">
+            <div class="game-over-buttons">
+                <button id="restart-game-over-btn" class="menu-btn">Reiniciar a fase</button>
+                <button id="menu-game-over-btn" class="menu-btn">Voltar ao menu</button>
+            </div>
         </div>
     </div>
 
