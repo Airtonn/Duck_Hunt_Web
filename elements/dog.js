@@ -1,7 +1,7 @@
 // largura/altura da tela e do cachorro são lidas dinamicamente dentro das funções
 const delayRespawn = 2000;                      // tempo de delay para ressurgimento do cachorro (2 segundos)
 const offscreenCoord = -1000;                   // coordenada fora da tela para esconder o cachorro
-const timeToMaxSpeed = 60000;                   // tempo em milissegundos para atingir a velocidade maxima (60 segundos)
+const timeToMaxSpeed = 90000;                   // tempo em milissegundos para atingir a velocidade maxima (180 segundos)
 
 export const dogs = [];                         // array responsavel por guardar os cachorros criados
 let startTime = null;                           // marca o tempo de inicio do jogo para calcular a velocidade
@@ -9,7 +9,7 @@ let startTime = null;                           // marca o tempo de inicio do jo
 //funcao que calcula a posicao inicial de spawn e velocidade/direcao em direcao ao pato
 function spawnPositionAndDirection(duckPos, dogVelocity) {
     // Solucao 2: le tamanho da tela diretamente no momento do spawn
-    const widthScreen  = window.innerWidth;
+    const widthScreen = window.innerWidth;
     const heightScreen = window.innerHeight;
     const side = Math.floor(Math.random() * 4); // Escolhe um dos 4 lados da tela (0=top, 1=bottom, 2=left, 3=right)
     let posX, posY;
@@ -44,7 +44,7 @@ function spawnPositionAndDirection(duckPos, dogVelocity) {
 // funcao para verificar se o cachorro saiu totalmente da tela
 function isOutOfScreen(dog) {
     // Solucao 2+3: le tela e tamanho real do elemento a cada chamada
-    const dw = dog.element.offsetWidth  || 120;
+    const dw = dog.element.offsetWidth || 120;
     const dh = dog.element.offsetHeight || 120;
     return (
         dog.posX + dw < 0 ||
@@ -104,7 +104,7 @@ export function updateDogs(duckPos, dogVelocity) {
     if (startTime === null) startTime = Date.now();     // garante que o tempo de inicio esteja definido
     const elapsedTime = Date.now() - startTime;          // calcula o tempo decorrido
     const progress = Math.min(elapsedTime / timeToMaxSpeed, 1); // calcula o progresso de 0 a 1 ate a velocidade maxima
-    const speedMultiplier = 1 + progress * 2;            // calcula o multiplicador de velocidade de 1x a 3x
+    const speedMultiplier = 1 + progress * 1.0;            // calcula o multiplicador de velocidade de 1x a 2x
 
     dogs.forEach(dog => {
         // Cachorro morto nao faz nada
