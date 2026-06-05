@@ -92,6 +92,25 @@ export function takeDamage(damage, enemy) {
 
 // funcao para alterar o valor de energia do pato externamente
 export function setDuckEnergy(value) {
-    duckEnergy = value;                                 // define o novo valor de energia
-    energyTextValue.textContent = Math.floor(duckEnergy); // atualiza o texto na interface
+    duckEnergy = value;
+    energyTextValue.textContent = Math.floor(duckEnergy);
+}
+
+export function resetDuck() {
+    duckPos.posX = 500;
+    duckPos.posY = 500;
+    duck.style.left = duckPos.posX + "px";
+    duck.style.top = duckPos.posY + "px";
+    duck.style.transform = "scale(1, 1)";
+    duck.style.backgroundImage = `url('${duckNormalImage}')`;
+
+    duckLife = 100;
+    duckEnergy = 100;
+    duckInvincible = false;
+    duckConfuse = false;
+
+    if (confuseTimeout) clearTimeout(confuseTimeout);
+
+    lifeTextValue.textContent = "100";
+    energyTextValue.textContent = "100";
 }
