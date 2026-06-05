@@ -162,3 +162,11 @@ export function hitDog(dog) {
         if (dog.element) dog.element.style.filter = "none";
     }, 100);
 }
+
+export function resetDogs() {
+    dogs.forEach(dog => {
+        if (dog.element) dog.element.remove();
+    });
+    dogs.length = 0;
+    startTime = null;
+}
