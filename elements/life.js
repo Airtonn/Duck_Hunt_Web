@@ -52,7 +52,7 @@ export function spawnLifeItem() {
 
 // funcao para coletar o item de vida e colocar em nova posicao aleatoria
 export function collectLife() {
-    setDuckLife(100);                           // sobe a vida para 100
+    setDuckLife(20);                           // aumenta a vida em 20
 
     const pos = getRandomPosition();            // gera nova posicao aleatoria
     lifeItem.posX = pos.posX;

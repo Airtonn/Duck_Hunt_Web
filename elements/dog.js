@@ -104,7 +104,7 @@ export function updateDogs(duckPos, dogVelocity) {
     if (startTime === null) startTime = Date.now();     // garante que o tempo de inicio esteja definido
     const elapsedTime = Date.now() - startTime;          // calcula o tempo decorrido
     const progress = Math.min(elapsedTime / timeToMaxSpeed, 1); // calcula o progresso de 0 a 1 ate a velocidade maxima
-    const speedMultiplier = 1 + progress * 1.0;            // calcula o multiplicador de velocidade de 1x a 2x
+    const speedMultiplier = 1 + progress * 1.5;            // calcula o multiplicador de velocidade de 1x a 2x
 
     dogs.forEach(dog => {
         // Cachorro morto nao faz nada

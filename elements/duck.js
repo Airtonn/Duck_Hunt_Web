@@ -99,7 +99,7 @@ export function setDuckEnergy(value) {
 
 // funcao para alterar o valor da vida do pato externamente
 export function setDuckLife(value) {
-    duckLife = value;
+    duckLife += value;
     if (duckLife > 100) duckLife = 100;
     lifeTextValue.textContent = Math.floor(duckLife);
 }
