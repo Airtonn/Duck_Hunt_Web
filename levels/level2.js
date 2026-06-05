@@ -1,145 +1,167 @@
-import {
-    moveDuck, spawnDogs, updateDogs, updateBullets, duckPos, duckLife,
-    spawnBullet, verifyColision, spawnEnergyItem, spawnLifeItem, spawnHunters, resetScore, reload,
-    resetDogs, resetHunters, resetBullets, resetDuck, getScore, resetEnergyItem, resetLifeItem
-} from '../index.js';
+import { spawnBullet } from './shoot.js';
 
-let isPaused = false;
-let gameStarted = false;
-let animationFrameId = null;
+const HUNTER_WIDTH = 100;
+const HUNTER_HEIGHT = 100;
+const SHOOT_INTERVAL = 1800;   // ms entre tiros
+const HUNTER_HP = 5;      // tiros necessários para derrubar
+const RESPAWN_DELAY = 5000;    // 5 segundos para reaparecer
 
-const pauseMenu = document.getElementById('pause-menu');
-const pauseBtn = document.getElementById('pause-btn');
-const resumeBtn = document.getElementById('resume-btn');
-const restartBtn = document.getElementById('restart-btn');
-const menuBtn = document.getElementById('menu-btn');
+export const hunters = [];     // array global de caçadores
 
-const gameOverScreen = document.getElementById('game-over');
-const restartGameOverBtn = document.getElementById('restart-game-over-btn');
-const menuGameOverBtn = document.getElementById('menu-game-over-btn');
+// ── Sorteia uma posição aleatória dentro de uma região de canto ──
+function _randomCornerPos(cornerIndex) {
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const MARGIN = 40;
+    const SPREAD = 120;
 
-function gameLoop() {
-    if (!isPaused && gameStarted) {
-        moveDuck();                                          // atualiza o movimento e controles do pato
-        updateDogs(duckPos, 7);                              // atualiza posicao, direcao e respawn dos cachorros (vel reduzida)
-        updateBullets();                                     // atualiza a trajetoria das balas atiradas
-        verifyColision();                                    // executa checagens de colisao (bala, cachorro, energia)
+    const rand = (min, max) => min + Math.random() * (max - min);
 
-        if (duckLife <= 0) {
-            triggerGameOver();
+    switch (cornerIndex) {
+        case 0: return { x: rand(MARGIN, MARGIN + SPREAD), y: rand(MARGIN, MARGIN + SPREAD) };
+        case 1: return {
+            x: rand(W - HUNTER_WIDTH - MARGIN - SPREAD,
+                W - HUNTER_WIDTH - MARGIN), y: rand(MARGIN, MARGIN + SPREAD)
+        };
+        case 2: return {
+            x: rand(MARGIN, MARGIN + SPREAD), y: rand(H - HUNTER_HEIGHT - MARGIN - SPREAD,
+                H - HUNTER_HEIGHT - MARGIN)
+        };
+        case 3: return {
+            x: rand(W - HUNTER_WIDTH - MARGIN - SPREAD,
+                W - HUNTER_WIDTH - MARGIN), y: rand(H - HUNTER_HEIGHT - MARGIN - SPREAD,
+                    H - HUNTER_HEIGHT - MARGIN)
+        };
+    }
+}
+
+// ── Spawna caçadores nos cantos da tela ──────────────────────
+export function spawnHunters(numHunters) {
+    const cornerIndices = [0, 1, 2, 3].sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < Math.min(numHunters, 4); i++) {
+        const corner = _randomCornerPos(cornerIndices[i]);
+
+        const el = document.createElement("div");
+        el.classList.add("hunter");
+        el.style.left = corner.x + "px";
+        el.style.top = corner.y + "px";
+
+        // Flip sprite if on left side of screen
+        if (corner.x < window.innerWidth / 2) {
+            el.style.transform = "scale(-1, 1)";
+        } else {
+            el.style.transform = "scale(1, 1)";
+        }
+
+        document.body.appendChild(el);
+
+        const hunter = {
+            element: el,
+            posX: corner.x,
+            posY: corner.y,
+            width: el.offsetWidth || HUNTER_WIDTH,
+            height: el.offsetHeight || HUNTER_HEIGHT,
+            hp: HUNTER_HP,
+            alive: true,
+            shootTimer: null,
+        };
+
+        _startShootLoop(hunter);
+
+        el.addEventListener("hunterShot", () => {
+            _onHunterShot(hunter);
+        });
+
+        hunters.push(hunter);
+    }
+}
+
+// ── Loop de tiro do caçador ───────────────────────────────────
+function _startShootLoop(hunter) {
+    hunter.shootTimer = setInterval(() => {
+        if (!hunter.alive) {
+            clearInterval(hunter.shootTimer);
             return;
         }
+        _hunterShoot(hunter);
+    }, SHOOT_INTERVAL);
+}
+
+// Dispara uma bala do caçador em direção à posição atual do pato
+function _hunterShoot(hunter) {
+    import('./duck.js').then(({ duckPos }) => {
+        spawnBullet(
+            duckPos.posX + 50,
+            duckPos.posY + 50,
+            { posX: hunter.posX, posY: hunter.posY },
+            HUNTER_WIDTH,
+            HUNTER_HEIGHT,
+            "hunter"
+        );
+    });
+}
+
+// ── Caçador é atingido por uma bala ──────────────────────────
+function _onHunterShot(hunter) {
+    hunter.hp--;
+
+    hunter.element.style.filter = "brightness(2) sepia(1) hue-rotate(-50deg) saturate(5)";
+    setTimeout(() => {
+        if (hunter.element) hunter.element.style.filter = "";
+    }, 120);
+
+    if (hunter.hp <= 0) {
+        _killHunter(hunter);
     }
-    animationFrameId = requestAnimationFrame(gameLoop);                     // agenda o proximo ciclo de renderizacao
 }
 
-function triggerGameOver() {
-    console.log("Level 3: GAME OVER");
-    gameStarted = false;
+// ── Remove o caçador e agenda respawn após 5 segundos ────────
+function _killHunter(hunter) {
+    hunter.alive = false;
+    clearInterval(hunter.shootTimer);
+    hunter.element.remove();
 
-    const currentScore = getScore();
-    const highScore = parseInt(localStorage.getItem('duck_hunt_record_level3') || '0', 10);
+    setTimeout(() => _respawnHunter(hunter), RESPAWN_DELAY);
+}
 
-    if (currentScore > highScore) {
-        localStorage.setItem('duck_hunt_record_level3', currentScore);
+function _respawnHunter(hunter) {
+    const corner = _randomCornerPos(Math.floor(Math.random() * 4));
+
+    const el = document.createElement("div");
+    el.classList.add("hunter");
+    el.style.left = corner.x + "px";
+    el.style.top = corner.y + "px";
+
+    // Flip sprite if on left side of screen
+    if (corner.x < window.innerWidth / 2) {
+        el.style.transform = "scale(-1, 1)";
+    } else {
+        el.style.transform = "scale(1, 1)";
     }
 
-    const finalScoreEl = document.getElementById('current-game-score');
-    const highScoreEl = document.getElementById('best-record-score');
+    document.body.appendChild(el);
 
-    if (finalScoreEl) finalScoreEl.innerText = currentScore;
-    if (highScoreEl) highScoreEl.innerText = Math.max(currentScore, highScore);
+    hunter.element = el;
+    hunter.posX = corner.x;
+    hunter.posY = corner.y;
+    hunter.width = el.offsetWidth || HUNTER_WIDTH;
+    hunter.height = el.offsetHeight || HUNTER_HEIGHT;
+    hunter.hp = HUNTER_HP;
+    hunter.alive = true;
 
-    gameOverScreen.style.display = 'flex';
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    el.addEventListener("hunterShot", () => _onHunterShot(hunter));
+    _startShootLoop(hunter);
 }
 
-function togglePause() {
-    if (!gameStarted && duckLife > 0) return;
-    if (gameOverScreen.style.display === 'flex') return;
-    isPaused = !isPaused;
-    pauseMenu.style.display = isPaused ? 'flex' : 'none';
+// ── Expõe largura/altura para uso externo (colisão) ──────────
+export const hunterWidth = HUNTER_WIDTH;
+export const hunterHeight = HUNTER_HEIGHT;
+
+export function resetHunters() {
+    hunters.forEach(hunter => {
+        if (hunter.shootTimer) clearInterval(hunter.shootTimer);
+        if (hunter.element) hunter.element.remove();
+    });
+    hunters.length = 0;
 }
-
-function startNewGame() {
-    console.log("Level 3: Starting new game");
-    // Soft reset: reset states and re-spawn elements
-    resetScore();
-    resetDuck();
-    resetDogs();
-    resetHunters();
-    resetBullets();
-    resetEnergyItem();
-    resetLifeItem();
-
-    spawnDogs(duckPos, 4, 7);                                // cria os 4 cachorros iniciais na tela (vel reduzida)
-    spawnEnergyItem();                                       // cria o item de energia inicial na tela
-    spawnLifeItem();                                         // cria o item de vida inicial na tela
-    // spawnHunters(2);                                         // cria os 2 caçadores
-
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    gameStarted = true;
-    isPaused = false;
-    pauseMenu.style.display = 'none';
-    gameOverScreen.style.display = 'none';
-    gameLoop();                                              // inicia a execucao do loop de jogo
-}
-
-// Event Listeners for UI (Attached only once)
-pauseBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    togglePause();
-});
-
-resumeBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    togglePause();
-});
-
-restartBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    startNewGame();
-});
-
-function backToMenu(e) {
-    e.stopPropagation();
-    isPaused = false;
-    gameStarted = false;
-    pauseMenu.style.display = 'none';
-    gameOverScreen.style.display = 'none';
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
-    document.dispatchEvent(new CustomEvent('returnToMenu'));
-}
-
-menuBtn.addEventListener('click', backToMenu);
-menuGameOverBtn.addEventListener('click', backToMenu);
-
-document.addEventListener('startLevel3', () => {
-    startNewGame();
-});
-
-document.addEventListener('startLevel1', () => {
-    gameStarted = false;
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-});
-
-document.addEventListener('startLevel2', () => {
-    gameStarted = false;
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-});
-
-// Evento disparado quando o cachorro atinge o pato
-document.body.addEventListener("dogHit", () => {
-    console.log("Dano no pato");                         // mensagem de log indicando dano recebido
-});
-
-// Evento de clique de mouse para disparo
-document.addEventListener("mousedown", function (event) {
-    if (isPaused || !gameStarted) return;
-    if (event.target.closest('#pause-btn') || event.target.closest('#pause-menu') || event.target.closest('#game-over')) return;
-
-    if (event.button === 0) {                            // se o botao esquerdo do mouse for clicado
-        spawnBullet(event.clientX, event.clientY, duckPos, null, null, "duck"); // dispara uma bala
-    }
-});
