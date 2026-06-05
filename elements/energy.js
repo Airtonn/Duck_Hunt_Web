@@ -24,6 +24,10 @@ function updateEnergyItemPosition() {
 
 // funcao para criar e posicionar o item de energia na tela
 export function spawnEnergyItem() {
+    if (energyItem) {
+        energyItem.element.remove();
+    }
+
     const el = document.createElement("div");   // cria o elemento div do item de energia
     el.id = "energyItem";                       // define o id do elemento
 
@@ -57,3 +61,11 @@ export function collectEnergy() {
 
     updateEnergyItemPosition();                 // atualiza a posicao na tela
 }
+
+export function resetEnergyItem() {
+    if (energyItem) {
+        energyItem.element.remove();
+        energyItem = null;
+    }
+}
+
