@@ -3,7 +3,7 @@ import { spawnBullet } from './shoot.js';
 const HUNTER_WIDTH  = 100;
 const HUNTER_HEIGHT = 100;
 const SHOOT_INTERVAL = 1800;   // ms entre tiros
-const HUNTER_HP      = 3;      // tiros necessários para derrubar
+const HUNTER_HP      = 4;      // tiros necessários para derrubar
 
 export const hunters = [];     // array global de caçadores
 
@@ -42,12 +42,18 @@ export function spawnHunters(numHunters) {
         el.style.top    = corner.y + "px";
         document.body.appendChild(el);
 
+        // Lê tamanho real do CSS após inserção no DOM
+        const realW = el.offsetWidth  || HUNTER_WIDTH;
+        const realH = el.offsetHeight || HUNTER_HEIGHT;
+
         const hunter = {
-            element:  el,
-            posX:     corner.x,
-            posY:     corner.y,
-            hp:       HUNTER_HP,
-            alive:    true,
+            element:    el,
+            posX:       corner.x,
+            posY:       corner.y,
+            width:      realW,
+            height:     realH,
+            hp:         HUNTER_HP,
+            alive:      true,
             shootTimer: null,
         };
 
@@ -104,11 +110,40 @@ function _onHunterShot(hunter) {
     }
 }
 
-// ── Remove o caçador da tela ──────────────────────────────────
+// ── Remove o caçador da tela e agenda respawn ────────────────
+const RESPAWN_DELAY = 5000; // 5 segundos
+
 function _killHunter(hunter) {
     hunter.alive = false;
     clearInterval(hunter.shootTimer);
     hunter.element.remove();
+
+    setTimeout(() => {
+        _respawnHunter(hunter);
+    }, RESPAWN_DELAY);
+}
+
+function _respawnHunter(hunter) {
+    const cornerIndex = Math.floor(Math.random() * 4);
+    const corner = _randomCornerPos(cornerIndex);
+
+    const el = document.createElement("div");
+    el.classList.add("hunter");
+    el.style.left = corner.x + "px";
+    el.style.top  = corner.y + "px";
+    document.body.appendChild(el);
+
+    hunter.element = el;
+    hunter.posX    = corner.x;
+    hunter.posY    = corner.y;
+    hunter.width   = el.offsetWidth  || HUNTER_WIDTH;
+    hunter.height  = el.offsetHeight || HUNTER_HEIGHT;
+    hunter.hp      = HUNTER_HP;
+    hunter.alive   = true;
+
+    el.addEventListener("hunterShot", () => _onHunterShot(hunter));
+
+    _startShootLoop(hunter);
 }
 
 // ── Expõe largura/altura para uso externo (colisão) ──────────

@@ -8,46 +8,49 @@ import { energyItem, collectEnergy } from './energy.js';
 export function verifyColision(duckPos, widthDuck, heightDuck) {
 
     // ── Colisão: Bala vs Cachorro ─────────────────────────────
+    // ── Único loop para balas do pato: verifica cachorro E caçador ──
     for (let i = bullets.length - 1; i >= 0; i--) {
         const bullet = bullets[i];
         if (bullet.shooter !== "duck") continue;
 
+        let hit = false;
+
+        // Cachorro
         for (let j = dogs.length - 1; j >= 0; j--) {
             const dog = dogs[j];
             if (!dog.alive || dog.respawning) continue;
 
-            const hitDog =
+            if (
                 bullet.x < dog.posX + 100 &&
                 bullet.x + 15 > dog.posX &&
                 bullet.y < dog.posY + 100 &&
-                bullet.y + 15 > dog.posY;
-
-            if (hitDog) {
+                bullet.y + 15 > dog.posY
+            ) {
                 bullet.el.remove();
                 bullets.splice(i, 1);
                 dog.element.dispatchEvent(new CustomEvent("dogShot", { bubbles: true }));
                 addPoint(10);
+                hit = true;
                 break;
             }
         }
-    }
 
-    // ── Colisão: Bala vs Caçador ──────────────────────────────
-    for (let i = bullets.length - 1; i >= 0; i--) {
-        const bullet = bullets[i];
-        if (bullet.shooter !== "duck") continue;
+        if (hit) continue;
 
+        // Caçador — usa hunter.width/height lidos do CSS
         for (let j = hunters.length - 1; j >= 0; j--) {
             const hunter = hunters[j];
             if (!hunter.alive) continue;
 
-            const hitHunter =
-                bullet.x < hunter.posX + hunterWidth &&
-                bullet.x + 15 > hunter.posX &&
-                bullet.y < hunter.posY + hunterHeight &&
-                bullet.y + 15 > hunter.posY;
+            const hw = hunter.width  || hunterWidth;
+            const hh = hunter.height || hunterHeight;
 
-            if (hitHunter) {
+            if (
+                bullet.x < hunter.posX + hw &&
+                bullet.x + 15 > hunter.posX &&
+                bullet.y < hunter.posY + hh &&
+                bullet.y + 15 > hunter.posY
+            ) {
                 bullet.el.remove();
                 bullets.splice(i, 1);
                 hunter.element.dispatchEvent(new CustomEvent("hunterShot", { bubbles: true }));
@@ -97,10 +100,12 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
     hunters.forEach(hunter => {
         if (!hunter.alive || hunter.hasDealtContactDamage) return;
 
+        const hw = hunter.width  || hunterWidth;
+        const hh = hunter.height || hunterHeight;
         const hitHunter =
-            duckPos.posX < hunter.posX + hunterWidth &&
+            duckPos.posX < hunter.posX + hw &&
             duckPos.posX + widthDuck > hunter.posX &&
-            duckPos.posY < hunter.posY + hunterHeight &&
+            duckPos.posY < hunter.posY + hh &&
             duckPos.posY + heightDuck > hunter.posY;
 
         if (hitHunter) {
