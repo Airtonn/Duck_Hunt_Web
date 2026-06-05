@@ -1,6 +1,6 @@
 import { consumeBullet, reload, getAmmo, emptyAmmo } from './ammo.js';
 import { dogs } from './dog.js';
-import { duck, duckPos, duckWidth, duckHeight } from './duck.js';
+import { duck, duckPos } from './duck.js';
 
 const BULLET_SPEED = 15;
 const BULLET_SIZE = 15;
@@ -41,8 +41,8 @@ export function spawnBullet(mouseX, mouseY, shooterPos, width, height, shooter) 
 
   // Fallback para compatibilidade caso os parâmetros do atirador não sejam informados
   const pos = shooterPos || duckPos;
-  const w = width || duckWidth;
-  const h = height || duckHeight;
+  const w = width || duck.offsetWidth  || 100;  // Solucao 3: tamanho real do pato
+  const h = height || duck.offsetHeight || 100; // Solucao 3: tamanho real do pato
   const type = shooter || "duck";
 
   const startX = pos.posX + w / 2;

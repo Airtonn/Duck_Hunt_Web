@@ -26,7 +26,7 @@ function updateEnergyItemPosition() {
 export function spawnEnergyItem() {
     const el = document.createElement("div");   // cria o elemento div do item de energia
     el.id = "energyItem";                       // define o id do elemento
-    
+
     el.style.position = "absolute";
     el.style.backgroundImage = "url('images/energy.png')";
     el.style.backgroundSize = "contain";
@@ -34,7 +34,7 @@ export function spawnEnergyItem() {
     el.style.width = energyWidth + "px";
     el.style.height = energyHeight + "px";
     el.style.zIndex = "5";
-    
+
     document.body.appendChild(el);              // adiciona ao corpo do documento
 
     const pos = getRandomPosition();
@@ -50,10 +50,10 @@ export function spawnEnergyItem() {
 // funcao para coletar o item de energia e colocar em nova posicao aleatoria
 export function collectEnergy() {
     setDuckEnergy(100);                         // sobe a energia para 100
-    
+
     const pos = getRandomPosition();            // gera nova posicao aleatoria
     energyItem.posX = pos.posX;
     energyItem.posY = pos.posY;
-    
+
     updateEnergyItemPosition();                 // atualiza a posicao na tela
 }

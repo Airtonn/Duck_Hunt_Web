@@ -13,10 +13,7 @@ export let duckInvincible = false                           // booleana para ver
 export let duckConfuse = false                              // booleana para verificar se o pato está confuso
 let confuseTimeout = null;                                  // armazena o ID do temporizador para o estado confuso
 
-const heightScreen = window.innerHeight;                    // altura da tela
-const widthScreen = window.innerWidth;                      // largura da tela
-export const duckHeight = duck.offsetHeight || 100;         // altura do pato
-export const duckWidth = duck.offsetWidth || 100;           // largura do pato
+// largura e altura são lidas dinamicamente a cada frame — ver moveDuck()
 // mapa de teclas para controlar o pato:
 export const keys = { w: false, a: false, s: false, d: false, shift: false };
 
@@ -53,12 +50,16 @@ export function moveDuck() {
     if (keys.a) { duckPos.posX -= currentVelocity; duck.style.transform = "scale(-1, 1)"; } // se A estiver sendo apertado entao o pato volta algumas posicoes em X
     if (keys.d) { duckPos.posX += currentVelocity; duck.style.transform = "scale(1, 1)"; }  // se D estiver sendo apertado entao o pato avança algumas posicoes em X
 
-    if (duckPos.posX < 0) duckPos.posX = 0;         // se a posicao X do pato for menor que 0 entao ele recebe 0 (impedir que ele saia da tela)
-    // se a posicao X do pato for maior que a largura maxima da tela entao ele recebe largura da tela - largura do pato (impedir que ele saia da tela)
-    else if (duckPos.posX > widthScreen - duckWidth) duckPos.posX = widthScreen - duckWidth;
-    if (duckPos.posY < 0) duckPos.posY = 0;         // se a posicao Y do pato for menor que 0 entao ele recebe 0 (impedir que ele saia da tela)
-    // se a posicao Y do pato for maior que a altura maxima da tela entao ele recebe altura da tela - altura do pato (impedir que ele saia da tela)
-    else if (duckPos.posY > heightScreen - duckHeight) duckPos.posY = heightScreen - duckHeight;
+    // Solucao 2: lê tamanho real da tela e do pato a cada frame
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
+    const dW = duck.offsetWidth  || 100;            // largura real do pato no momento atual
+    const dH = duck.offsetHeight || 100;            // altura real do pato no momento atual
+
+    if (duckPos.posX < 0) duckPos.posX = 0;         // impede sair pela esquerda
+    else if (duckPos.posX > screenW - dW) duckPos.posX = screenW - dW; // impede sair pela direita
+    if (duckPos.posY < 0) duckPos.posY = 0;         // impede sair pelo topo
+    else if (duckPos.posY > screenH - dH) duckPos.posY = screenH - dH; // impede sair pelo fundo
 
     duck.style.left = duckPos.posX + "px";          // atualiza a posicao x do pato
     duck.style.top = duckPos.posY + "px";           // atualiza a posicao y do pato
@@ -94,6 +95,13 @@ export function takeDamage(damage, enemy) {
 export function setDuckEnergy(value) {
     duckEnergy = value;
     energyTextValue.textContent = Math.floor(duckEnergy);
+}
+
+// funcao para alterar o valor da vida do pato externamente
+export function setDuckLife(value) {
+    duckLife = value;
+    if (duckLife > 100) duckLife = 100;
+    lifeTextValue.textContent = Math.floor(duckLife);
 }
 
 export function resetDuck() {

@@ -52,7 +52,7 @@ export function spawnHunters(numHunters) {
             element: el,
             posX: corner.x,
             posY: corner.y,
-            width: el.offsetWidth  || HUNTER_WIDTH,
+            width: el.offsetWidth || HUNTER_WIDTH,
             height: el.offsetHeight || HUNTER_HEIGHT,
             hp: HUNTER_HP,
             alive: true,
@@ -123,16 +123,16 @@ function _respawnHunter(hunter) {
     const el = document.createElement("div");
     el.classList.add("hunter");
     el.style.left = corner.x + "px";
-    el.style.top  = corner.y + "px";
+    el.style.top = corner.y + "px";
     document.body.appendChild(el);
 
     hunter.element = el;
-    hunter.posX    = corner.x;
-    hunter.posY    = corner.y;
-    hunter.width   = el.offsetWidth  || HUNTER_WIDTH;
-    hunter.height  = el.offsetHeight || HUNTER_HEIGHT;
-    hunter.hp      = HUNTER_HP;
-    hunter.alive   = true;
+    hunter.posX = corner.x;
+    hunter.posY = corner.y;
+    hunter.width = el.offsetWidth || HUNTER_WIDTH;
+    hunter.height = el.offsetHeight || HUNTER_HEIGHT;
+    hunter.hp = HUNTER_HP;
+    hunter.alive = true;
 
     el.addEventListener("hunterShot", () => _onHunterShot(hunter));
     _startShootLoop(hunter);

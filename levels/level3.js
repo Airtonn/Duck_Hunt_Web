@@ -1,6 +1,6 @@
 import {
-    moveDuck, spawnDogs, updateDogs, updateBullets, duckPos, duckWidth, duckHeight,
-    spawnBullet, verifyColision, spawnEnergyItem, spawnHunters, resetScore, reload,
+    moveDuck, spawnDogs, updateDogs, updateBullets, duckPos,
+    spawnBullet, verifyColision, spawnEnergyItem, spawnLifeItem, spawnHunters, resetScore, reload,
     resetDogs, resetHunters, resetBullets, resetDuck
 } from '../index.js';
 
@@ -19,7 +19,7 @@ function gameLoop() {
         moveDuck();                                          // atualiza o movimento e controles do pato
         updateDogs(duckPos, 10);                             // atualiza posicao, direcao e respawn dos cachorros
         updateBullets();                                     // atualiza a trajetoria das balas atiradas
-        verifyColision(duckPos, duckWidth, duckHeight);      // executa checagens de colisao (bala, cachorro, energia)
+        verifyColision();                                             // executa checagens de colisao (bala, cachorro, energia)
     }
     animationFrameId = requestAnimationFrame(gameLoop);                     // agenda o proximo ciclo de renderizacao
 }
@@ -39,6 +39,7 @@ function startNewGame() {
 
     spawnDogs(duckPos, 4, 10);                               // cria os 4 cachorros iniciais na tela
     spawnEnergyItem();                                       // cria o item de energia inicial na tela
+    spawnLifeItem();                                         // cria o item de vida inicial na tela
     // spawnHunters(2);                                         // cria os 2 caçadores
 
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -87,6 +88,6 @@ document.addEventListener("mousedown", function (event) {
     if (event.target.closest('#pause-btn') || event.target.closest('#pause-menu')) return;
 
     if (event.button === 0) {                            // se o botao esquerdo do mouse for clicado
-        spawnBullet(event.clientX, event.clientY, duckPos, duckWidth, duckHeight, "duck"); // dispara uma bala
+        spawnBullet(event.clientX, event.clientY, duckPos, null, null, "duck"); // dispara uma bala
     }
 });

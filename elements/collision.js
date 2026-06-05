@@ -2,10 +2,14 @@ import { bullets, triggerPenaltyReload } from './shoot.js';
 import { dogs } from './dog.js';
 import { hunters, hunterWidth, hunterHeight } from './hunter.js';
 import { addPoint } from './score.js';
-import { takeDamage } from './duck.js';
+import { duck, duckPos, takeDamage } from './duck.js';
 import { energyItem, collectEnergy } from './energy.js';
+import { lifeItem, collectLife } from './life.js';
 
-export function verifyColision(duckPos, widthDuck, heightDuck) {
+export function verifyColision() {
+    // Solucao 3: le tamanho real do pato via DOM a cada verificacao
+    const widthDuck  = duck.offsetWidth  || 100;
+    const heightDuck = duck.offsetHeight || 100;
 
     // ── Colisão: Bala vs Cachorro ─────────────────────────────
     // ── Único loop para balas do pato: verifica cachorro E caçador ──
@@ -15,15 +19,18 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
 
         let hit = false;
 
-        // Cachorro
+        // Cachorro — Solucao 3: tamanho real via offsetWidth/Height
         for (let j = dogs.length - 1; j >= 0; j--) {
             const dog = dogs[j];
             if (!dog.alive || dog.respawning) continue;
 
+            const dw = dog.element.offsetWidth  || 100;
+            const dh = dog.element.offsetHeight || 100;
+
             if (
-                bullet.x < dog.posX + 100 &&
+                bullet.x < dog.posX + dw &&
                 bullet.x + 15 > dog.posX &&
-                bullet.y < dog.posY + 100 &&
+                bullet.y < dog.posY + dh &&
                 bullet.y + 15 > dog.posY
             ) {
                 bullet.el.remove();
@@ -37,13 +44,13 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
 
         if (hit) continue;
 
-        // Caçador — usa hunter.width/height lidos do CSS
+        // Caçador — Solucao 3: tamanho real via offsetWidth/Height
         for (let j = hunters.length - 1; j >= 0; j--) {
             const hunter = hunters[j];
             if (!hunter.alive) continue;
 
-            const hw = hunter.width  || hunterWidth;
-            const hh = hunter.height || hunterHeight;
+            const hw = hunter.element.offsetWidth  || hunter.width  || hunterWidth;
+            const hh = hunter.element.offsetHeight || hunter.height || hunterHeight;
 
             if (
                 bullet.x < hunter.posX + hw &&
@@ -82,11 +89,14 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
     dogs.forEach(dog => {
         if (!dog.alive || dog.respawning || dog.hasDealtDamage) return;
 
+        const dw = dog.element.offsetWidth  || 100;
+        const dh = dog.element.offsetHeight || 100;
+
         const hitDuck =
             dog.posX < duckPos.posX + widthDuck &&
-            dog.posX + 100 > duckPos.posX &&
+            dog.posX + dw > duckPos.posX &&
             dog.posY < duckPos.posY + heightDuck &&
-            dog.posY + 100 > duckPos.posY;
+            dog.posY + dh > duckPos.posY;
 
         if (hitDuck) {
             dog.hasDealtDamage = true;
@@ -100,8 +110,8 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
     hunters.forEach(hunter => {
         if (!hunter.alive || hunter.hasDealtContactDamage) return;
 
-        const hw = hunter.width  || hunterWidth;
-        const hh = hunter.height || hunterHeight;
+        const hw = hunter.element.offsetWidth  || hunter.width  || hunterWidth;
+        const hh = hunter.element.offsetHeight || hunter.height || hunterHeight;
         const hitHunter =
             duckPos.posX < hunter.posX + hw &&
             duckPos.posX + widthDuck > hunter.posX &&
@@ -129,6 +139,19 @@ export function verifyColision(duckPos, widthDuck, heightDuck) {
 
         if (hitEnergy) {
             collectEnergy();
+        }
+    }
+
+    // ── Colisão: Pato vs Item de Vida ─────────────────────────
+    if (lifeItem) {
+        const hitLife =
+            duckPos.posX < lifeItem.posX + 50 &&
+            duckPos.posX + widthDuck > lifeItem.posX &&
+            duckPos.posY < lifeItem.posY + 50 &&
+            duckPos.posY + heightDuck > lifeItem.posY;
+
+        if (hitLife) {
+            collectLife();
         }
     }
 }

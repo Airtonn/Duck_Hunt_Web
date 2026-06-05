@@ -1,9 +1,4 @@
-const heightScreen = window.innerHeight;        // altura da tela
-const widthScreen = window.innerWidth;          // largura da tela
-const heightDuck = 100;                         // altura do pato (mantida para compatibilidade)
-const widthDuck = 100;                          // largura do pato (mantida para compatibilidade)
-const dogHeight = 100;                          // altura do cachorro
-const dogWidth = 100;                           // largura do cachorro
+// largura/altura da tela e do cachorro são lidas dinamicamente dentro das funções
 const delayRespawn = 2000;                      // tempo de delay para ressurgimento do cachorro (2 segundos)
 const offscreenCoord = -1000;                   // coordenada fora da tela para esconder o cachorro
 const timeToMaxSpeed = 60000;                   // tempo em milissegundos para atingir a velocidade maxima (60 segundos)
@@ -13,20 +8,23 @@ let startTime = null;                           // marca o tempo de inicio do jo
 
 //funcao que calcula a posicao inicial de spawn e velocidade/direcao em direcao ao pato
 function spawnPositionAndDirection(duckPos, dogVelocity) {
+    // Solucao 2: le tamanho da tela diretamente no momento do spawn
+    const widthScreen  = window.innerWidth;
+    const heightScreen = window.innerHeight;
     const side = Math.floor(Math.random() * 4); // Escolhe um dos 4 lados da tela (0=top, 1=bottom, 2=left, 3=right)
     let posX, posY;
 
     if (side === 0) {        // topo
         posX = Math.random() * widthScreen;
-        posY = -dogHeight;
+        posY = -120;
     } else if (side === 1) { // baixo
         posX = Math.random() * widthScreen;
-        posY = heightScreen + dogHeight;
+        posY = heightScreen + 120;
     } else if (side === 2) { // esquerda
-        posX = -dogWidth;
+        posX = -120;
         posY = Math.random() * heightScreen;
     } else {                 // direita
-        posX = widthScreen + dogWidth;
+        posX = widthScreen + 120;
         posY = Math.random() * heightScreen;
     }
 
@@ -45,11 +43,14 @@ function spawnPositionAndDirection(duckPos, dogVelocity) {
 
 // funcao para verificar se o cachorro saiu totalmente da tela
 function isOutOfScreen(dog) {
+    // Solucao 2+3: le tela e tamanho real do elemento a cada chamada
+    const dw = dog.element.offsetWidth  || 120;
+    const dh = dog.element.offsetHeight || 120;
     return (
-        dog.posX + dogWidth < 0 ||
-        dog.posX > widthScreen ||
-        dog.posY + dogHeight < 0 ||
-        dog.posY > heightScreen
+        dog.posX + dw < 0 ||
+        dog.posX > window.innerWidth ||
+        dog.posY + dh < 0 ||
+        dog.posY > window.innerHeight
     );
 }
 
