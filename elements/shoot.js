@@ -94,10 +94,13 @@ export function updateBullets() {
   }
 }
 
-// ── Dispara ao clicar ─────────────────────────────────────────
-document.addEventListener("mousedown", function (event) {
-  // Botão esquerdo apenas (button === 0)
-  if (event.button === 0) {
-    spawnBullet(event.clientX, event.clientY);
-  }
-});
+export function resetBullets() {
+  bullets.forEach(b => {
+    if (b.el) b.el.remove();
+  });
+  bullets.length = 0;
+  isReloading = false;
+  reload(); // Reset ammo count to full
+}
+
+// O evento mousedown foi movido para o nível (level3.js) para suportar pause e evitar tiros indesejados ao clicar nos botões do menu.
