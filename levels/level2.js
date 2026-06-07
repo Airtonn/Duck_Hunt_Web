@@ -72,10 +72,10 @@ function startNewGame() {
     resetEnergyItem();
     resetLifeItem();
 
-    spawnDogs(duckPos, 4, 7);                                // cria os 4 cachorros iniciais na tela (vel reduzida)
+    spawnDogs(duckPos, 2, 7);                                // cria os 2 cachorros iniciais na tela (vel reduzida)
     spawnEnergyItem();                                       // cria o item de energia inicial na tela
     spawnLifeItem();                                         // cria o item de vida inicial na tela
-    // spawnHunters(2);                                         // cria os 2 caçadores
+    spawnHunters(2);                                         // cria os 2 caçadores
 
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
     gameStarted = true;
