@@ -7,6 +7,8 @@ const lifeHeight = 50;                          // altura do item de vida
 
 export let lifeItem = null;                     // guarda o objeto do item de vida
 
+let respawnTimeout = null;                      // guarda o ID do timer de respawn
+
 // funcao para gerar uma posicao aleatoria para o item de vida
 function getRandomPosition() {
     const posX = Math.random() * (widthScreen - lifeWidth);
@@ -50,21 +52,34 @@ export function spawnLifeItem() {
     updateLifeItemPosition();
 }
 
-// funcao para coletar o item de vida e colocar em nova posicao aleatoria
+// funcao para coletar o item de vida e colocar em nova posicao com delay
 export function collectLife() {
-    setDuckLife(20);                           // aumenta a vida em 20
+    setDuckLife(20);                           // aumenta a vida
 
-    const pos = getRandomPosition();            // gera nova posicao aleatoria
-    lifeItem.posX = pos.posX;
-    lifeItem.posY = pos.posY;
+    // 1. Remove o item da tela imediatamente para que não possa ser pego de novo
+    resetLifeItem();
 
-    updateLifeItemPosition();                   // atualiza a posicao na tela
+    // 2. Limpa qualquer timer anterior (por segurança)
+    if (respawnTimeout) {
+        clearTimeout(respawnTimeout);
+    }
+
+    // 3. Aguarda 5 segundos (5000 milissegundos) para rodar o spawnLifeItem
+    respawnTimeout = setTimeout(() => {
+        spawnLifeItem();
+    }, 5000);
 }
 
 export function resetLifeItem() {
+    // Remove o item da tela
     if (lifeItem) {
         lifeItem.element.remove();
         lifeItem = null;
     }
+    
+    // Cancela o timer de respawn se a fase reiniciar ou o jogo acabar
+    if (respawnTimeout) {
+        clearTimeout(respawnTimeout);
+        respawnTimeout = null;
+    }
 }
-
