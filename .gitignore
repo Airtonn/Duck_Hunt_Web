@@ -1,0 +1,10 @@
+# Node
+ExpTs/node_modules/
+ExpTs/build/
+ExpTs/logs/
+
+# Variaveis de ambiente
+ExpTs/.env
+
+# Lock files opcionais
+# ExpTs/package-lock.json
