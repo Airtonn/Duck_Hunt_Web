@@ -4,11 +4,11 @@ import logger from './middlewares/logger.js';
 import router from './router/router.js';
 import { engine } from 'express-handlebars';
 import helpers from './views/helpers/helpers.js';
-import session from 'express-session'; 
+import session from 'express-session';
 //import morgan from "morgan"
 
 
-declare module 'express-session' {}
+declare module 'express-session' { }
 
 
 const env = getEnv();
@@ -51,7 +51,6 @@ app.listen(PORT, () => {
 
 
 app.use(session({
-  genid: () => uuidv4(), // usamos UUID para gerar os SESSID
   secret: 'Hi9Cf#mK98',
   resave: true,
   saveUninitialized: true,
