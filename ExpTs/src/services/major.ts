@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client/extension';
+import { PrismaClient } from '../generated/prisma/client.js';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import validateEnv from '../utils/validateEnv.js';
-import type { CreateMajorDto} from '../types/major.js';
+import type { CreateMajorDto } from '../types/major.js';
 import type { Major } from '../generated/prisma/client.js';
 
 const env = validateEnv();
