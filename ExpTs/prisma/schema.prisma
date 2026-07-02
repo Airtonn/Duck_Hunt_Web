@@ -19,6 +19,7 @@ model Major{
   description String @db.Text()
   createdAt DateTime @default(now()) @map("created_at") 
   updatedAt DateTime @updatedAt @map("updated_at")
+  users User[]
 
   @@map("majors")
 }
