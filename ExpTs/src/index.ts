@@ -34,7 +34,10 @@ app.use('/css', [
   express.static(`${process.cwd()}/public/css`),
   express.static(`${process.cwd()}/node_modules/bootstrap/dist/css`),
 ]);
-app.use('/img', express.static(`${process.cwd()}/public/img`));
+app.use('/img', [
+  express.static(`${process.cwd()}/public/img`),
+  express.static(`${process.cwd()}/../game/images`),
+]);
 app.use('/js', [
   express.static(`${process.cwd()}/public/js`),
   express.static(`${process.cwd()}/node_modules/bootstrap/dist/js`),
