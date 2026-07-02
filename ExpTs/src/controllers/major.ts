@@ -1,32 +1,80 @@
-import type { Request, Response } from 'express';
-import type { CreateMajorDto } from '../types/major.js';
-import { createMajor, getMajors } from '../services/major.js';
+import { type Request, type Response } from 'express';
+import { LoremIpsum } from 'lorem-ipsum';
 
-const index = async (req: Request, res: Response) => {};
-const create = async (req: Request, res: Response) => {
-  if (req.method === 'GET') {
-    res.render('major/create');
-  } else if(req.method === 'POST') {
-    try {
-      await createMajor(req.body);
-      res.redirect('/major');
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  }
-};
-const read = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  res.send(id);
-};
-const update = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (req.method === 'GET') {
-    res.render('major/update', { id });
-  } else if(req.method === 'POST') {
-    const { }
-  }
-};
-const remove = async (req: Request, res: Response) => {};
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4,
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4,
+  },
+});
 
-export default { index, create, read, update, remove };
+const index = (req: Request, res: Response) => {
+  res.render('main/index');
+};
+
+const about = (req: Request, res: Response) => {
+  res.render('main/about');
+};
+
+const bemvindo = (req: Request, res: Response) => {
+  res.send(`Seja bem vindo ${req.params.nome}`);
+};
+
+const Gerarlorem = (req: Request, res: Response) => {
+  const quantidade = parseInt(req.params.quantidade as string, 10);
+
+  const resultado = lorem.generateParagraphs(quantidade);
+
+  res.send(`<h1>Gerador de Lorem Ipsum</h1><pre>${resultado}</pre>`);
+};
+
+const hb1 = (req: Request, res: Response) => {
+  const mensagem = 'Bem vindo(a) ao webacademy';
+  res.render('main/hb1', {
+    mensagem,
+  });
+};
+
+const hb2 = (req: Request, res: Response) => {
+  const message = 'Bem vindo(a) ao webacademy';
+  res.render('main/hb2', {
+    layout: 'main2',
+    showMessage: true,
+    message,
+  });
+};
+
+const hb3 = (req: Request, res: Response) => {
+  const profes = [
+    { nome: 'David Fernandes', sala: 1238 },
+    { nome: 'Horácio Fernandes', sala: 1233 },
+    { nome: 'Edleno Moura', sala: 1236 },
+    { nome: 'Elaine Harada', sala: 1231 },
+  ];
+  res.render('main/hb3', { profes });
+};
+
+const hb4 = function (req: Request, res: Response) {
+  const profes = [
+    { nome: 'David Fernandes', sala: 1238 },
+    { nome: 'Eduardo Nakamura', sala: 0 },
+    { nome: 'Edleno Moura', sala: 1236 },
+    { nome: 'Elaine Harada', sala: 1231 },
+  ];
+  res.render('main/hb4', { profes });
+};
+
+export default {
+  index,
+  about,
+  bemvindo,
+  Gerarlorem,
+  hb1,
+  hb2,
+  hb3,
+  hb4,
+};
