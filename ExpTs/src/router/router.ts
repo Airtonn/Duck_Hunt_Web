@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import mainController from '../controllers/main.js';
 import majorController from '../controllers/major.js';
-import authontroller from "../controllers/auth.js"
+import authController from "../controllers/auth.js"
 
 const router = Router();
 
@@ -28,7 +28,7 @@ router.get('/major/read/:id', majorController.read);
 router.get('/major/update/:id', majorController.update);
 router.get('/major/remove/:id', majorController.remove);
 
-router.all("/singup", authController.singup) 
-router.all("/login", authController.login) 
-router.all("/logout", authController.login) 
+router.all("/singup", authController.singup)
+router.all("/login", authController.login)
+router.all("/logout", authController.login)
 export default router;
