@@ -1,36 +1,36 @@
-import prismaClient from './prismaClient.js';
-import valideteEnv from './validateEnv.js';
-import {compare, genSalt, hash} from 'bcrypt';
+import prisma from './prismaClient.js';
+import valideteEnv from '../utils/validateEnv.js';
+import { compare, genSalt, hash } from 'bcrypt';
 import type { CreateUserDto, LoginUserDto } from '../types/user.js';
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { Session } from 'express-session';
 
 const env = valideteEnv();
 
 export async function createUser(data: CreateUserDto) {
-    const salt = await genSalt(env.BCRYPT_ROUNDS);
+    const salt = await genSalt(parseInt(env.BCRYPT_ROUNDS, 10));
     const password = await hash(data.password, salt);
 }
 
-
-export async function loginUser(req: Request, res: Response){
+export async function loginUser(req: Request, res: Response) {
     if (req.method === 'GET') {
         res.render('auth/login');
     } else if (req.method === 'POST') {
         const data = req.body as LoginUserDto;
         const user = await checkUserPassword(data);
         if (!user) {
-          req.session.uid = user.id;
-
-        }
-        else {
             res.render('auth/login');
         }
+        else {
+            // @ts-ignore
+            req.session.uid = user.id;
+        }
+    }
 }
 
-export async function checkUserPassword(data: LoginUserDto): Promise<> {
+export async function checkUserPassword(data: LoginUserDto): Promise<any> {
     const user = await prisma.user.findFirst({
-    where: {
+        where: {
             email: data.email,
         },
     });
