@@ -1,14 +1,25 @@
-import type { Request, Response} from "express"
+import type { Request, Response } from "express";
 
-const singup = async (req:ReadableStreamBYOBRequest, res:Response){
-    const majors = await getMajors();
-    if(req.method === "GET"){
-
+const singup = async (req: Request, res: Response) => {
+    if (req.method === "GET") {
+        res.render("auth/signup");
     }
-}
+};
 
-const login = async (req:Request, res:Response){
-    
-}
+const login = async (req: Request, res: Response) => {
+    if (req.method === "GET") {
+        res.render("auth/login");
+    }
+};
+
+const logout = async (req: Request, res: Response) => {
+    res.redirect("/");
+};
+
+const authController = {
+    singup,
+    login,
+    logout
+};
 
 export default authController;
