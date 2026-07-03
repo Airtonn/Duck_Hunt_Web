@@ -4,18 +4,22 @@ import logger from './middlewares/logger.js';
 import router from './router/router.js';
 import { engine } from 'express-handlebars';
 import helpers from './views/helpers/helpers.js';
-import session from 'express-session'; 
+import session from 'express-session';
+import { v4 as uuidv4 } from 'uuid';
 //import morgan from "morgan"
 
 
-declare module 'express-session' {}
+declare module 'express-session' {
+  interface SessionData {
+    userId: string;
+  }
+}
 
 
 const env = getEnv();
 const PORT = env.PORT;
 const app = express();
 
-//app.use(morgan("short"))
 
 app.engine(
   'handlebars',
@@ -41,23 +45,34 @@ app.use('/js', [
 ]);
 app.use('/bootstrap-icons', express.static(`${process.cwd()}/node_modules/bootstrap-icons/font`));
 
+
+
 // isso é para o express ler o body da requisição e transformar em um objeto JavaScript
 app.use(express.urlencoded({ extended: false }))
+
+//passa pelo middleare de sessao
+app.use(session({
+  genid: () => uuidv4(),
+  secret: 'Hi9Cf#mK98',
+  resave: true,
+  saveUninitialized: true,
+}));
+
+
+//isso é para adicionar a variavel sessionUserId na variavel 
+app.use((req, res, next) => {
+  res.locals.sessionUserId = req.session?.userId;
+  next();
+})
+
+
+//so libera os endpoints apos adicionar uma sessao
 app.use(router);
+
 
 app.listen(PORT, () => {
   console.log(`Express app iniciada na porta ${PORT}.`);
 });
 
 
-app.use(session({
-  genid: () => uuidv4(), // usamos UUID para gerar os SESSID
-  secret: 'Hi9Cf#mK98',
-  resave: true,
-  saveUninitialized: true,
-}));
 
-app.use((req, res, next) => {
-  res.locals.logged = !!req.session.userId; // Verifica se o usuário está logado
-  next();
-});

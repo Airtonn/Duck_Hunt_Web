@@ -24,7 +24,7 @@ const update = async (req: Request, res: Response) => {
   if (req.method === 'GET') {
     res.render('major/update', { id });
   } else if(req.method === 'POST') {
-    const { }
+    // implementacao pendente
   }
 };
 const remove = async (req: Request, res: Response) => {};

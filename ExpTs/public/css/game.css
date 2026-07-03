@@ -1,0 +1,481 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url("images/hunter_duck_background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+#duck,
+.dog,
+.hunter {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+#duck {
+  background-image: url("images/duck_normal.png");
+  width: 10%;
+  height: 15%;
+}
+
+.dog {
+  background-image: url("images/dog.png");
+  width: 15%;
+  height: 20%;
+}
+
+.hunter {
+  width: 15%;
+  height: 20%;
+  background-image: url('images/hunter.png');
+}
+
+.bullet {
+  position: absolute;
+  border-radius: 50%;
+  /* forma circular */
+  background-color: #ffffff;
+  /* azul claro */
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+  /* brilho ao redor */
+  pointer-events: none;
+  /* não interfere com cliques */
+  z-index: 10;
+}
+
+#scoreBox {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: #2e2e2e;
+  border: 0.5px solid #555;
+  border-radius: 6px;
+  padding: 8px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
+  user-select: none;
+  min-width: 90px;
+}
+
+.score-label {
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  font-family: monospace;
+  text-align: center;
+}
+
+#score {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+}
+
+#ammo {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: #2e2e2e;
+  border: 0.5px solid #555;
+  border-radius: 6px;
+  padding: 8px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 100;
+  user-select: none;
+}
+
+.ammo-label {
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.08em;
+  font-family: monospace;
+  text-align: center;
+}
+
+.ammo-bullets {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ammo-pip {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f5a142;
+  border: 1.5px solid transparent;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.ammo-pip.spent {
+  background: transparent;
+  border: 1.5px solid #f5a142;
+  opacity: 0.35;
+}
+
+#duckStats {
+  position: fixed;
+  top: 100px;
+  right: 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  z-index: 100;
+  user-select: none;
+  align-items: center;
+  justify-items: center;
+}
+
+#lifeBox,
+#energyBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+#life {
+  background-image: url("images/life.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#lifeValue {
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+#energy {
+  background-image: url("images/energy.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#energyValue {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+/* --- Menu and Instructions Styles --- */
+
+#main-menu,
+#instructions {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#main-menu {
+  background-image: url("images/hunter_duck_menu.png");
+}
+
+#instructions {
+  background-image: url("images/hunter_duck_background.png");
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-btn {
+  padding: 15px 30px;
+  font-size: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff0000;
+  border: 4px solid #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform 0.1s, background-color 0.1s;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.menu-btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.menu-btn:active {
+  transform: scale(0.95);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.instructions-content {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 30px;
+  border: 5px solid #000;
+  max-width: 600px;
+  text-align: center;
+  color: #000;
+}
+
+.instructions-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #ff0000;
+}
+
+.instructions-text {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.instructions-text ul {
+  padding-left: 20px;
+}
+
+/* --- Pause Menu Styles --- */
+
+#pause-btn {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 15px;
+  font-size: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff0000;
+  border: 2px solid #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  z-index: 101;
+  box-shadow: 2px 2px 0px #000;
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+#pause-btn:hover {
+  background-color: #cc0000;
+  transform: translateX(-50%) scale(1.05);
+}
+
+#pause-btn:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+#pause-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.pause-content {
+  background-color: #2e2e2e;
+  border: 4px solid #ff0000;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  min-width: 300px;
+}
+
+.pause-content h1 {
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 36px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px #000;
+}
+
+.pause-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pause-menu-btn {
+  padding: 12px 24px;
+  font-size: 18px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff0000;
+  border: 3px solid #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform 0.1s, background-color 0.1s;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.pause-menu-btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
+
+.pause-menu-btn:active {
+  transform: scale(0.95);
+  box-shadow: 1px 1px 0px #000;
+}
+
+/* --- Level Selection Screen --- */
+
+#level-selection {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("images/hunter_duck_menu.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.level-selection-content {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 40px;
+  border: 5px solid #ff0000;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 1);
+  min-width: 400px;
+}
+
+.level-selection-content h1 {
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 42px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  text-shadow: 3px 3px #000;
+}
+
+.level-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+#back-from-levels-btn {
+  background-color: #555;
+}
+
+#back-from-levels-btn:hover {
+  background-color: #444;
+}
+
+/* --- Game Over Screen --- */
+
+#game-over {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.game-over-content {
+  background-color: #1a1a1a;
+  border: 6px solid #ff0000;
+  padding: 50px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+  border-radius: 20px;
+  min-width: 350px;
+}
+
+.game-over-content h1 {
+  color: #ff0000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 60px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 4px 4px #000;
+}
+
+.game-over-scores {
+  margin-bottom: 25px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.game-over-scores p {
+  color: #fff;
+  font-size: 24px;
+  margin: 10px 0;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.game-over-scores span {
+  color: #ffcc00;
+  font-size: 28px;
+}
+
+.game-over-img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 30px;
+  border: 3px solid #fff;
+  border-radius: 10px;
+}
+
+
+.game-over-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
