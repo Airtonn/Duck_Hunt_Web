@@ -17,7 +17,7 @@ const index = (req: Request, res: Response) => {
 };
 
 const about = (req: Request, res: Response) => {
-  res.send('<h1>pagina do abouttt</h1>');
+  res.render('main/about');
 };
 
 const bemvindo = (req: Request, res: Response) => {

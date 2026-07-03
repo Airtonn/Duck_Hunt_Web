@@ -5,6 +5,7 @@ import router from './router/router.js';
 import { engine } from 'express-handlebars';
 import helpers from './views/helpers/helpers.js';
 import session from 'express-session';
+<<<<<<< HEAD
 import { v4 as uuidv4 } from 'uuid';
 //import morgan from "morgan"
 
@@ -14,6 +15,12 @@ declare module 'express-session' {
     userId: string;
   }
 }
+=======
+//import morgan from "morgan"
+
+
+declare module 'express-session' { }
+>>>>>>> refs/remotes/origin/main
 
 
 const env = getEnv();
@@ -38,7 +45,10 @@ app.use('/css', [
   express.static(`${process.cwd()}/public/css`),
   express.static(`${process.cwd()}/node_modules/bootstrap/dist/css`),
 ]);
-app.use('/img', express.static(`${process.cwd()}/public/img`));
+app.use('/img', [
+  express.static(`${process.cwd()}/public/img`),
+  express.static(`${process.cwd()}/../game/images`),
+]);
 app.use('/js', [
   express.static(`${process.cwd()}/public/js`),
   express.static(`${process.cwd()}/node_modules/bootstrap/dist/js`),
@@ -75,4 +85,12 @@ app.listen(PORT, () => {
 });
 
 
+<<<<<<< HEAD
+=======
+app.use(session({
+  secret: 'Hi9Cf#mK98',
+  resave: true,
+  saveUninitialized: true,
+}));
+>>>>>>> refs/remotes/origin/main
 

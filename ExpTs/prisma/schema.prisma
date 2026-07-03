@@ -13,7 +13,7 @@ datasource db {
 }
 
 model Major {
-  idMajor      String   @id @default(uuid()) @db.Char(36)
+  idMajor     String   @id @default(uuid()) @db.Char(36)
   code        String   @unique @db.Char(4)
   name        String   @db.VarChar(100)
   description String   @db.Text()
@@ -25,23 +25,23 @@ model Major {
 }
 
 model Users {
-  idUser      String @id @default(uuid()) @db.Char(436)
-  fullName    String @db.VarChar(100)
-  email       String @db.VarChar(100)
-  
-  majorId     String @db.Char(36)
-  major       Major @relation(fields: [majorId], references: [idMajor])
-  
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  idUser    String   @id @default(uuid()) @db.Char(36)
+  fullName  String   @db.VarChar(100)
+  email     String   @db.VarChar(100)
 
+  majorId   String   @db.Char(36)
+  major     Major    @relation(fields: [majorId], references: [idMajor])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  gameSessions gameSessions[]
 
   @@map("users")
 }
 
-
 model gameSessions {
   id     String @id @db.Char(40)
   UserId String @db.Char(36)
-  user   Users @relation(fields: [UserId], references: [idUser])
+  user   Users  @relation(fields: [UserId], references: [idUser])
 }
