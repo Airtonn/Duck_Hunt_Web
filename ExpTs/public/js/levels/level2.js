@@ -30,11 +30,11 @@ function gameLoop() {
             return;
         }
     }
-    animationFrameId = requestAnimationFrame(gameLoop);                     // agenda o proximo ciclo de renderizacao
+    animationFrameId = requestAnimationFrame(gameLoop);                     // agenda o próximo ciclo de renderização
 }
 
 function triggerGameOver() {
-    console.log("Level 2: GAME OVER");
+    console.log("Fase 2: GAME OVER");
     gameStarted = false;
 
     const currentScore = getScore();
@@ -50,6 +50,9 @@ function triggerGameOver() {
     if (finalScoreEl) finalScoreEl.innerText = currentScore;
     if (highScoreEl) highScoreEl.innerText = Math.max(currentScore, highScore);
 
+    // Salva a pontuação
+    document.dispatchEvent(new CustomEvent('saveScore', { detail: { score: currentScore } }));
+
     gameOverScreen.style.display = 'flex';
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
 }
@@ -62,8 +65,8 @@ function togglePause() {
 }
 
 function startNewGame() {
-    console.log("Level 2: Starting new game");
-    // Soft reset: reset states and re-spawn elements
+    console.log("Fase 2: Iniciando novo jogo");
+    // Reset leve: reseta estados e recria elementos
     resetScore();
     resetDuck();
     resetDogs();
@@ -72,10 +75,10 @@ function startNewGame() {
     resetEnergyItem();
     resetLifeItem();
 
-    spawnDogs(duckPos, 2, 7);                                // cria os 2 cachorros iniciais na tela (vel reduzida)
+    spawnDogs(duckPos, 2, 7);                                // cria 2 cachorros na tela (vel reduzida)
     spawnEnergyItem();                                       // cria o item de energia inicial na tela
     spawnLifeItem();                                         // cria o item de vida inicial na tela
-    spawnHunters(2);                                         // cria os 2 caçadores
+    spawnHunters(2);                                         // cria 2 caçadores
 
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
     gameStarted = true;
@@ -85,7 +88,7 @@ function startNewGame() {
     gameLoop();                                              // inicia a execucao do loop de jogo
 }
 
-// Event Listeners for UI (Attached only once)
+// Listeners de eventos da interface (adicionados apenas uma vez)
 pauseBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     togglePause();

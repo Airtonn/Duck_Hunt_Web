@@ -1,11 +1,17 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 import mainController from '../controllers/main.js';
 import majorController from '../controllers/major.js';
 import authController from '../controllers/auth.js';
+import gameController from '../controllers/game.js';
+
+import { checkAuth } from '../middlewares/auth.js';
 
 const router = Router();
 
-router.get('/', mainController.index);
+router.get('/', checkAuth, mainController.index);
+
+router.post('/score', checkAuth, express.json(), gameController.saveScore);
+router.get('/ranking', checkAuth, mainController.ranking);
 
 router.get('/about', mainController.about);
 
@@ -25,8 +31,8 @@ router.get('/hb4', mainController.hb4);
 router.get('/major/', majorController.index);
 router.all('/major/create', majorController.create);
 router.get('/major/read/:id', majorController.read);
-router.get('/major/update/:id', majorController.update);
-router.get('/major/remove/:id', majorController.remove);
+router.all('/major/update/:id', majorController.update);
+router.post('/major/remove/:id', majorController.remove);
 
 router.all('/signup', authController.signup);
 router.all('/login', authController.login);

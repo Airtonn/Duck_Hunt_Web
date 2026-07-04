@@ -32,7 +32,7 @@ export function spawnEnergyItem() {
     el.id = "energyItem";                       // define o id do elemento
 
     el.style.position = "absolute";
-    el.style.backgroundImage = "url('images/energy.png')";
+    el.style.backgroundImage = "url('/img/images/energy.png')";
     el.style.backgroundSize = "contain";
     el.style.backgroundRepeat = "no-repeat";
     el.style.width = energyWidth + "px";

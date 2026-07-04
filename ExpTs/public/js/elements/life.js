@@ -33,7 +33,7 @@ export function spawnLifeItem() {
     el.id = "lifeItem";                         // define o id do elemento
 
     el.style.position = "absolute";
-    el.style.backgroundImage = "url('images/life.png')";
+    el.style.backgroundImage = "url('/img/images/life.png')";
     el.style.backgroundSize = "contain";
     el.style.backgroundRepeat = "no-repeat";
     el.style.width = lifeWidth + "px";

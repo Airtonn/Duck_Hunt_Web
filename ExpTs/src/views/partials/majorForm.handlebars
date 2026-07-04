@@ -1,8 +1,13 @@
 <div class="mb-3">
-<label for="code" class="form-label">Código</label>
-<input type="code" class="form-control" id="code" placeholder="">
-<label for="name" class="form-label">Código</label>
-<input type="name" class="form-control" id="name" placeholder="">
-<button class="btn btn-primary " type="submit">Adicionar Turma</button>
-<div>
-   
+    <label for="name" class="form-label">Nome do Curso</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{major.name}}" required placeholder="Ex: Computação">
+</div>
+<div class="mb-3">
+    <label for="code" class="form-label">Sigla/Código</label>
+    <input type="text" class="form-control" id="code" name="code" value="{{major.code}}" required maxlength="4" placeholder="Ex: COMP">
+</div>
+<div class="mb-3">
+    <label for="description" class="form-label">Descrição</label>
+    <textarea class="form-control" id="description" name="description" rows="3" required placeholder="Descrição do curso...">{{major.description}}</textarea>
+</div>
+<button class="btn btn-primary" type="submit">Enviar</button>

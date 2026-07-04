@@ -7,11 +7,13 @@ import helpers from './views/helpers/helpers.js';
 import session from 'express-session';
 import { v4 as uuidv4 } from 'uuid';
 //import morgan from "morgan"
+
 declare module 'express-session' {
   interface SessionData {
     userId: string;
   }
 }
+
 const env = getEnv();
 const PORT = env.PORT;
 const app = express();
@@ -24,7 +26,9 @@ app.engine(
 );
 app.set('view engine', 'handlebars');
 app.set('views', `${process.cwd()}/src/views`);
-app.use(logger('simple'));
+
+app.use(logger('completo'));
+
 //http://localhost:5555/css/style.css
 app.use('/css', [
   express.static(`${process.cwd()}/public/css`),

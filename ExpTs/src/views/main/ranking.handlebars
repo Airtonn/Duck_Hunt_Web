@@ -1,0 +1,30 @@
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Ranking - Duck Hunt</h1>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" style="width: 10%;">Posição</th>
+                    <th scope="col" style="width: 50%;">Jogador</th>
+                    <th scope="col" style="width: 40%;">Pontuação Máxima</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if ranking.length}}
+                    {{#each ranking}}
+                        <tr>
+                            <td><strong>{{this.position}}º</strong></td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.score}}</td>
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td colspan="3" class="text-muted py-4">Nenhuma pontuação registrada ainda. Seja o primeiro a jogar!</td>
+                    </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>

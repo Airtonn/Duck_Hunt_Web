@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --watch src --exec tsx src/index.ts",
+    "deploy": "tsc",
     "build": "tsc",
     "start:prod": "node build/index.js",
     "sass": "npx sass public/scss/main.scss public/css/main.css --watch",

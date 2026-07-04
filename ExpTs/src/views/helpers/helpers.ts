@@ -1,11 +1,15 @@
-interface Prof {
+interface Technology {
   name: string;
-  room: number;
+  type: string;
+  poweredByNodejs: boolean;
 }
 
-function listProfs(profs: Prof[]) {
-  const list = profs.map((p) => `<li>${p.name} - ${p.room}</li>`).join('');
+function listTechnologies(technologies: Technology[]) {
+  const list = technologies
+    .filter((t) => t.poweredByNodejs)
+    .map((t) => `<li>${t.name} - ${t.type}</li>`)
+    .join('');
   return `<ul>${list}</ul>`;
 }
 
-export default { listProfs };
+export default { listTechnologies };

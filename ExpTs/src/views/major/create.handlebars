@@ -1,8 +1,11 @@
 <h1>Criação de Curso</h1>
 <div class="row">
-    <div class = "hb6">
-    <form action="/major/create" method="post"></form>
-    {{majorForm}}
-    </form>
+    <div class="hb6">
+        {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+        <form action="/major/create" method="post">
+            {{> majorForm}}
+        </form>
     </div>
 </div>

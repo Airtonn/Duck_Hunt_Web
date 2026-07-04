@@ -1,42 +1,53 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Minha Loja Virtual</a>
+    <a class="navbar-brand" href="/">Duck Hunt e Funções Extras</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/hb1">Hb1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/hb2">Hb2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/hb3">Hb3</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/hb4">Hb4</a>
+          <a class="nav-link" href="/about">Sobre</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Major
+            Cursos
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/major/">Listar</a></li>
             <li><a class="dropdown-item" href="/major/create">Criar</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/about">Sobre</a></li>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Handlebars (HB)
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/hb1">HB1</a></li>
+            <li><a class="dropdown-item" href="/hb2">HB2</a></li>
+            <li><a class="dropdown-item" href="/hb3">HB3</a></li>
+            <li><a class="dropdown-item" href="/hb4">HB4</a></li>
+          </ul>
+        </li>
+        {{#if sessionUserId}}
+        <li class="nav-item">
+          <a class="nav-link" href="/">Jogar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/ranking">Ranking</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Sair</a>
+        </li>
+        {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/singup">Criar Conta</a>
+        </li>
+        {{/if}}
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>

@@ -1,3 +1,108 @@
-<div class="container">
-  <h1>Home</h1>
+<link rel="stylesheet" type="text/css" href="/css/game.css">
+
+<!-- Game Elements (initially hidden) -->
+<div id="game-ui" style="display: none;">
+    <div id="duck"></div>
+    <div id="scoreBox">
+        <span class="score-label">Pontos</span>
+        <span id="score">00000</span>
+    </div>
+    <div id="ammo">
+        <span class="ammo-label">Munição</span>
+        <div class="ammo-bullets">
+            <span class="ammo-pip" data-index="0"></span>
+            <span class="ammo-pip" data-index="1"></span>
+            <span class="ammo-pip" data-index="2"></span>
+            <span class="ammo-pip" data-index="3"></span>
+            <span class="ammo-pip" data-index="4"></span>
+        </div>
+    </div>
+    <div id="duckStats">
+        <div id="lifeBox">
+            <div id="life">
+                <span id="lifeValue">100</span>
+            </div>
+        </div>
+        <div id="energyBox">
+            <div id="energy">
+                <span id="energyValue">100</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Button -->
+    <button id="pause-btn">Pausa</button>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" style="display: none;">
+        <div class="pause-content">
+            <h1>Pausa</h1>
+            <div class="pause-buttons">
+                <button id="resume-btn" class="pause-menu-btn">Voltar ao jogo</button>
+                <button id="restart-btn" class="pause-menu-btn">Reiniciar fase</button>
+                <button id="menu-btn" class="pause-menu-btn">Voltar ao menu</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Main Menu -->
+<div id="main-menu">
+    <div class="menu-buttons">
+        <button id="play-btn" class="menu-btn">Jogar</button>
+        <button id="how-to-play-btn" class="menu-btn">Como Jogar</button>
+    </div>
+</div>
+
+<!-- Instructions Screen -->
+<div id="instructions" style="display: none;">
+    <div class="instructions-content">
+        <h1>Como Jogar</h1>
+        <div class="instructions-text">
+            <p><strong>Objetivo:</strong> O objetivo do jogo é caçar os caçadores e evitar que os cachorros te atinjam.</p>
+            <p><strong>Controles:</strong></p>
+            <ul>
+                <li>Mova o mouse para mirar.</li>
+                <li>Clique com o botão esquerdo para atirar.</li>
+                <li>Recarregue sua munição coletando itens ou vencendo rodadas.</li>
+                <li>WASD: movimentação do personagem.</li>
+                <li>Shift: corrida do personagem.</li>
+            </ul>
+        </div>
+        <button id="back-to-menu-btn" class="menu-btn">Voltar</button>
+    </div>
+</div>
+
+<!-- Level Selection Screen -->
+<div id="level-selection" style="display: none;">
+    <div class="level-selection-content">
+        <h1>Selecionar Fase</h1>
+        <div class="level-buttons">
+            <button id="level1-btn" class="menu-btn">Fase 1: First Day</button>
+            <button id="level2-btn" class="menu-btn">Fase 2: Double trouble</button>
+            <button id="level3-btn" class="menu-btn">Fase 3: Dog day</button>
+        </div>
+        <button id="back-from-levels-btn" class="menu-btn">Voltar</button>
+    </div>
+</div>
+
+<!-- Game Over Screen -->
+<div id="game-over" style="display: none;">
+    <div class="game-over-content">
+        <h1>GAME OVER!</h1>
+        <div class="game-over-scores">
+            <p>Pontuação: <span id="current-game-score">0</span></p>
+            <p>Recorde: <span id="best-record-score">0</span></p>
+        </div>
+        <img src="/img/images/duck_confused.png" alt="Confused Duck" class="game-over-img">
+        <div class="game-over-buttons">
+            <button id="restart-game-over-btn" class="menu-btn">Reiniciar a fase</button>
+            <button id="menu-game-over-btn" class="menu-btn">Voltar ao menu</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/menu.js"></script>
+<script type="module" src="/js/levels/level1.js"></script>
+<script type="module" src="/js/levels/level2.js"></script>
+<script type="module" src="/js/levels/level3.js"></script>

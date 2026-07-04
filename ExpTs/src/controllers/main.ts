@@ -10,7 +10,7 @@ const lorem = new LoremIpsum({
     max: 16,
     min: 4,
   },
-});
+}, 'html');
 
 const index = (req: Request, res: Response) => {
   res.render('main/index');
@@ -29,7 +29,7 @@ const Gerarlorem = (req: Request, res: Response) => {
 
   const resultado = lorem.generateParagraphs(quantidade);
 
-  res.send(`<h1>Gerador de Lorem Ipsum</h1><pre>${resultado}</pre>`);
+  res.send(resultado);
 };
 
 const hb1 = (req: Request, res: Response) => {
@@ -59,13 +59,57 @@ const hb3 = (req: Request, res: Response) => {
 };
 
 const hb4 = function (req: Request, res: Response) {
-  const profes = [
-    { nome: 'David Fernandes', sala: 1238 },
-    { nome: 'Eduardo Nakamura', sala: 0 },
-    { nome: 'Edleno Moura', sala: 1236 },
-    { nome: 'Elaine Harada', sala: 1231 },
+  const technologies = [
+    { name: 'Express', type: 'Framework', poweredByNodejs: true },
+    { name: 'Laravel', type: 'Framework', poweredByNodejs: false },
+    { name: 'React', type: 'Library', poweredByNodejs: true },
+    { name: 'Handlebars', type: 'Engine View', poweredByNodejs: true },
+    { name: 'Django', type: 'Framework', poweredByNodejs: false },
+    { name: 'Docker', type: 'Virtualization', poweredByNodejs: false },
+    { name: 'Sequelize', type: 'ORM tool', poweredByNodejs: true },
   ];
-  res.render('main/hb4', { profes });
+  res.render('main/hb4', { technologies });
+};
+
+import prismaClient from '../services/prismaClient.js';
+
+const ranking = async (req: Request, res: Response) => {
+  try {
+    const topScores = await prismaClient.gameSessions.groupBy({
+      by: ['UserId'],
+      _max: {
+        score: true,
+      },
+      orderBy: {
+        _max: {
+          score: 'desc',
+        },
+      },
+      take: 10,
+    });
+
+    // Fetch user details for the top scores
+    const userIds = topScores.map(score => score.UserId);
+    const users = await prismaClient.users.findMany({
+      where: {
+        idUser: { in: userIds }
+      }
+    });
+
+    const rankingData = topScores.map((score, index) => {
+      const user = users.find(u => u.idUser === score.UserId);
+      return {
+        position: index + 1,
+        name: user?.fullName || 'Unknown',
+        score: score._max.score
+      };
+    });
+
+    res.render('main/ranking', { ranking: rankingData });
+  } catch (error) {
+    console.error('Erro ao gerar ranking:', error);
+    res.status(500).send('Erro interno');
+  }
 };
 
 export default {
@@ -77,4 +121,5 @@ export default {
   hb2,
   hb3,
   hb4,
+  ranking,
 };

@@ -2,9 +2,9 @@ import { type Request, type Response, type NextFunction } from 'express';
 import fs from 'fs/promises';
 import getEnv from '../utils/validateEnv.js';
 
-type LogType = 'simple' | 'complete';
+type LogType = 'simples' | 'completo';
 const env = getEnv();
-const pathLog = `${process.cwd()}/${env.LOGGER_PATH}`;
+const pathLog = `${process.cwd()}/${env.LOGS_PATH}`;
 const fileLog = `${pathLog}/logs.log`;
 
 async function createLogPath() {
@@ -16,7 +16,7 @@ async function createLogPath() {
 }
 
 function logger(type: LogType) {
-  if (type === 'simple') {
+  if (type === 'simples') {
     return async (req: Request, res: Response, next: NextFunction) => {
       await createLogPath();
       const log = `${new Date().toISOString()}, ${req.url}, ${req.method}\n`;
@@ -28,7 +28,6 @@ function logger(type: LogType) {
       await createLogPath();
       const log = `${new Date().toISOString()}, ${req.url}, ${req.method}, ${req.httpVersion}, ${req.get('User-Agent')}\n`;
       fs.appendFile(fileLog, log);
-      console.log('complete');
       next();
     };
   }

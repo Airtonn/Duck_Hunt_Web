@@ -4,7 +4,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-image: url("images/hunter_duck_background.png");
+  background-image: url("/img/images/hunter_duck_background.png");
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -20,13 +20,13 @@ body {
 }
 
 #duck {
-  background-image: url("images/duck_normal.png");
+  background-image: url("/img/images/duck_normal.png");
   width: 10%;
   height: 15%;
 }
 
 .dog {
-  background-image: url("images/dog.png");
+  background-image: url("/img/images/dog.png");
   width: 15%;
   height: 20%;
 }
@@ -34,7 +34,7 @@ body {
 .hunter {
   width: 15%;
   height: 20%;
-  background-image: url('images/hunter.png');
+  background-image: url('/img/images/hunter.png');
 }
 
 .bullet {
@@ -148,7 +148,7 @@ body {
 }
 
 #life {
-  background-image: url("images/life.png");
+  background-image: url("/img/images/life.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: 80px;
@@ -166,7 +166,7 @@ body {
 }
 
 #energy {
-  background-image: url("images/energy.png");
+  background-image: url("/img/images/energy.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: 80px;
@@ -201,11 +201,11 @@ body {
 }
 
 #main-menu {
-  background-image: url("images/hunter_duck_menu.png");
+  background-image: url("/img/images/hunter_duck_menu.png");
 }
 
 #instructions {
-  background-image: url("images/hunter_duck_background.png");
+  background-image: url("/img/images/hunter_duck_background.png");
   justify-content: center;
   align-items: center;
 }
@@ -373,7 +373,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("images/hunter_duck_menu.png");
+  background-image: url("/img/images/hunter_duck_menu.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

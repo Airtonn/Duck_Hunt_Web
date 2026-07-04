@@ -1,7 +1,7 @@
 const lifeTextValue = document.getElementById("lifeValue")      // elemento de valor da vida
 const energyTextValue = document.getElementById("energyValue")  // elemento de valor da energia
-const duckNormalImage = "images/duck_normal.png";           // imagem do pato normal
-const duckConfuseImage = "images/duck_confused.png"         // imagem do pato confuso
+const duckNormalImage = "/img/images/duck_normal.png";           // imagem do pato normal
+const duckConfuseImage = "/img/images/duck_confused.png"         // imagem do pato confuso
 export const duck = document.getElementById("duck");        // pegando o elemento pato por meio do id
 export let duckPos = { posX: 500, posY: 500 };                // variavel responsavel por guardas as posicoes x e y do pato
 const walk = 5;                                             // velocidade normal do pato
