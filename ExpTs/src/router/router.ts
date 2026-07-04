@@ -34,7 +34,7 @@ router.get('/major/read/:id', majorController.read);
 router.all('/major/update/:id', majorController.update);
 router.post('/major/remove/:id', majorController.remove);
 
-router.all('/signup', authController.signup);
+router.all('/signup', authController.singup);
 router.all('/login', authController.login);
 router.all('/logout', authController.logoutHandler);
 export default router;

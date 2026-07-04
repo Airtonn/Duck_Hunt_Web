@@ -1,6 +1,6 @@
 import type { Major } from '../generated/prisma/client.js';
 
-class CreateMajorDto implements Omit<Major, 'id' | 'createdAt' | 'updatedAt'> {
+class CreateMajorDto implements Omit<Major, 'idMajor' | 'createdAt' | 'updatedAt'> {
   code: string;
   name: string;
   description: string;

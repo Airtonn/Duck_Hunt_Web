@@ -27,11 +27,18 @@ const create = async (req: Request, res: Response) => {
 
 const read = async (req: Request, res: Response) => {
   const { id } = req.params;
+  if (typeof id !== 'string') {
+    return res.status(400).send('ID inválido');
+  }
   res.send(id);
 };
 
 const update = async (req: Request, res: Response) => {
   const { id } = req.params;
+  if (typeof id !== 'string') {
+    return res.status(400).send('ID inválido');
+  }
+
   if (req.method === 'GET') {
     const major = await getMajor(id);
     res.render('major/update', { major });
@@ -41,7 +48,6 @@ const update = async (req: Request, res: Response) => {
       res.redirect('/major');
     } catch (err: any) {
       console.error('Erro ao atualizar curso:', err);
-      // Pass the old major back with the error
       const major = await getMajor(id);
       res.render('major/update', { major, error: 'Erro ao atualizar. Verifique se a sigla tem no máximo 4 caracteres e se não pertence a outro curso.' });
     }
@@ -50,6 +56,10 @@ const update = async (req: Request, res: Response) => {
 
 const remove = async (req: Request, res: Response) => {
   const { id } = req.params;
+  if (typeof id !== 'string') {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
   try {
     await deleteMajor(id);
     res.json({ success: true });

@@ -20,7 +20,7 @@ export async function createMajor(data: CreateMajorDto) {
 export async function deleteMajor(id: string) {
   return prisma.major.delete({
     where: {
-      id: id,
+      idMajor: id,
     },
   });
 }
@@ -28,7 +28,7 @@ export async function deleteMajor(id: string) {
 export async function getMajor(id: string): Promise<Major | null> {
   return prisma.major.findUnique({
     where: {
-      id: id,
+      idMajor: id,
     },
   });
 }
@@ -36,7 +36,7 @@ export async function getMajor(id: string): Promise<Major | null> {
 export async function updateMajor(id: string, data: CreateMajorDto) {
   return prisma.major.update({
     where: {
-      id: id,
+      idMajor: id,
     },
     data: data,
   });
