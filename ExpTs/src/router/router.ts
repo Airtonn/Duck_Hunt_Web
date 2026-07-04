@@ -28,7 +28,7 @@ router.get('/major/read/:id', majorController.read);
 router.get('/major/update/:id', majorController.update);
 router.get('/major/remove/:id', majorController.remove);
 
-router.all('/singup', authController.singup);
+router.all('/signup', authController.signup);
 router.all('/login', authController.login);
 router.all('/logout', authController.logoutHandler);
 export default router;

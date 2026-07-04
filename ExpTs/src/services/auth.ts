@@ -9,7 +9,7 @@ export async function createUser(data: CreateUserDto) {
   const salt = await genSalt(Number(env.BCRYPT_ROUNDS));
   const password = await hash(data.password, salt);
 
-  return prismaClient.user.create({
+  return prismaClient.users.create({
     data: {
       ...data,
       password,
@@ -18,7 +18,7 @@ export async function createUser(data: CreateUserDto) {
 }
 
 export async function checkUserPassword(data: LoginUserDto) {
-  const user = await prismaClient.user.findFirst({
+  const user = await prismaClient.users.findFirst({
     where: {
       email: data.email,
     },
