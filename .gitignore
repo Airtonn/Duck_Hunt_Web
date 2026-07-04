@@ -8,3 +8,24 @@ ExpTs/.env
 
 # Lock files opcionais
 # ExpTs/package-lock.json
+
+node_modules/
+dist/
+build/
+.env
+.env.*
+!.env.example
+
+# Prisma
+src/generated/prisma/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
