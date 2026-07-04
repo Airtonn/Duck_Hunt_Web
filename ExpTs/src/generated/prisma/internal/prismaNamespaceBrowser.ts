@@ -51,7 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Major: 'Major'
+  Major: 'Major',
+  Users: 'Users',
+  gameSessions: 'gameSessions'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,7 +73,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const MajorScalarFieldEnum = {
-  id: 'id',
+  idMajor: 'idMajor',
   code: 'code',
   name: 'name',
   description: 'description',
@@ -80,6 +82,27 @@ export const MajorScalarFieldEnum = {
 } as const
 
 export type MajorScalarFieldEnum = (typeof MajorScalarFieldEnum)[keyof typeof MajorScalarFieldEnum]
+
+
+export const UsersScalarFieldEnum = {
+  idUser: 'idUser',
+  fullName: 'fullName',
+  email: 'email',
+  password: 'password',
+  majorId: 'majorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const GameSessionsScalarFieldEnum = {
+  id: 'id',
+  UserId: 'UserId'
+} as const
+
+export type GameSessionsScalarFieldEnum = (typeof GameSessionsScalarFieldEnum)[keyof typeof GameSessionsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -91,11 +114,30 @@ export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
 export const MajorOrderByRelevanceFieldEnum = {
-  id: 'id',
+  idMajor: 'idMajor',
   code: 'code',
   name: 'name',
   description: 'description'
 } as const
 
 export type MajorOrderByRelevanceFieldEnum = (typeof MajorOrderByRelevanceFieldEnum)[keyof typeof MajorOrderByRelevanceFieldEnum]
+
+
+export const UsersOrderByRelevanceFieldEnum = {
+  idUser: 'idUser',
+  fullName: 'fullName',
+  email: 'email',
+  password: 'password',
+  majorId: 'majorId'
+} as const
+
+export type UsersOrderByRelevanceFieldEnum = (typeof UsersOrderByRelevanceFieldEnum)[keyof typeof UsersOrderByRelevanceFieldEnum]
+
+
+export const gameSessionsOrderByRelevanceFieldEnum = {
+  id: 'id',
+  UserId: 'UserId'
+} as const
+
+export type gameSessionsOrderByRelevanceFieldEnum = (typeof gameSessionsOrderByRelevanceFieldEnum)[keyof typeof gameSessionsOrderByRelevanceFieldEnum]
 

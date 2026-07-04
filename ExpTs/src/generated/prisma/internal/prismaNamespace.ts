@@ -384,7 +384,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  Major: 'Major'
+  Major: 'Major',
+  Users: 'Users',
+  gameSessions: 'gameSessions'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "major"
+    modelProps: "major" | "users" | "gameSessions"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -470,6 +472,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Users: {
+      payload: Prisma.$UsersPayload<ExtArgs>
+      fields: Prisma.UsersFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UsersFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UsersFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>
+        }
+        findFirst: {
+          args: Prisma.UsersFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UsersFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>
+        }
+        findMany: {
+          args: Prisma.UsersFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>[]
+        }
+        create: {
+          args: Prisma.UsersCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>
+        }
+        createMany: {
+          args: Prisma.UsersCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.UsersDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>
+        }
+        update: {
+          args: Prisma.UsersUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>
+        }
+        deleteMany: {
+          args: Prisma.UsersDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UsersUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.UsersUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UsersPayload>
+        }
+        aggregate: {
+          args: Prisma.UsersAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUsers>
+        }
+        groupBy: {
+          args: Prisma.UsersGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UsersGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UsersCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UsersCountAggregateOutputType> | number
+        }
+      }
+    }
+    gameSessions: {
+      payload: Prisma.$gameSessionsPayload<ExtArgs>
+      fields: Prisma.gameSessionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.gameSessionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.gameSessionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>
+        }
+        findFirst: {
+          args: Prisma.gameSessionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.gameSessionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>
+        }
+        findMany: {
+          args: Prisma.gameSessionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>[]
+        }
+        create: {
+          args: Prisma.gameSessionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>
+        }
+        createMany: {
+          args: Prisma.gameSessionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.gameSessionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>
+        }
+        update: {
+          args: Prisma.gameSessionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.gameSessionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.gameSessionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.gameSessionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$gameSessionsPayload>
+        }
+        aggregate: {
+          args: Prisma.GameSessionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGameSessions>
+        }
+        groupBy: {
+          args: Prisma.gameSessionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameSessionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.gameSessionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameSessionsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -510,7 +644,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const MajorScalarFieldEnum = {
-  id: 'id',
+  idMajor: 'idMajor',
   code: 'code',
   name: 'name',
   description: 'description',
@@ -519,6 +653,27 @@ export const MajorScalarFieldEnum = {
 } as const
 
 export type MajorScalarFieldEnum = (typeof MajorScalarFieldEnum)[keyof typeof MajorScalarFieldEnum]
+
+
+export const UsersScalarFieldEnum = {
+  idUser: 'idUser',
+  fullName: 'fullName',
+  email: 'email',
+  password: 'password',
+  majorId: 'majorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const GameSessionsScalarFieldEnum = {
+  id: 'id',
+  UserId: 'UserId'
+} as const
+
+export type GameSessionsScalarFieldEnum = (typeof GameSessionsScalarFieldEnum)[keyof typeof GameSessionsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -530,13 +685,32 @@ export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
 export const MajorOrderByRelevanceFieldEnum = {
-  id: 'id',
+  idMajor: 'idMajor',
   code: 'code',
   name: 'name',
   description: 'description'
 } as const
 
 export type MajorOrderByRelevanceFieldEnum = (typeof MajorOrderByRelevanceFieldEnum)[keyof typeof MajorOrderByRelevanceFieldEnum]
+
+
+export const UsersOrderByRelevanceFieldEnum = {
+  idUser: 'idUser',
+  fullName: 'fullName',
+  email: 'email',
+  password: 'password',
+  majorId: 'majorId'
+} as const
+
+export type UsersOrderByRelevanceFieldEnum = (typeof UsersOrderByRelevanceFieldEnum)[keyof typeof UsersOrderByRelevanceFieldEnum]
+
+
+export const gameSessionsOrderByRelevanceFieldEnum = {
+  id: 'id',
+  UserId: 'UserId'
+} as const
+
+export type gameSessionsOrderByRelevanceFieldEnum = (typeof gameSessionsOrderByRelevanceFieldEnum)[keyof typeof gameSessionsOrderByRelevanceFieldEnum]
 
 
 
@@ -676,6 +850,8 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   major?: Prisma.MajorOmit
+  users?: Prisma.UsersOmit
+  gameSessions?: Prisma.gameSessionsOmit
 }
 
 /* Types for Logging */

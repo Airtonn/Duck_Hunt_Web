@@ -46,3 +46,13 @@ export { Prisma }
  * 
  */
 export type Major = Prisma.MajorModel
+/**
+ * Model Users
+ * 
+ */
+export type Users = Prisma.UsersModel
+/**
+ * Model gameSessions
+ * 
+ */
+export type gameSessions = Prisma.gameSessionsModel

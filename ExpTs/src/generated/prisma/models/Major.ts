@@ -25,7 +25,7 @@ export type AggregateMajor = {
 }
 
 export type MajorMinAggregateOutputType = {
-  id: string | null
+  idMajor: string | null
   code: string | null
   name: string | null
   description: string | null
@@ -34,7 +34,7 @@ export type MajorMinAggregateOutputType = {
 }
 
 export type MajorMaxAggregateOutputType = {
-  id: string | null
+  idMajor: string | null
   code: string | null
   name: string | null
   description: string | null
@@ -43,7 +43,7 @@ export type MajorMaxAggregateOutputType = {
 }
 
 export type MajorCountAggregateOutputType = {
-  id: number
+  idMajor: number
   code: number
   name: number
   description: number
@@ -54,7 +54,7 @@ export type MajorCountAggregateOutputType = {
 
 
 export type MajorMinAggregateInputType = {
-  id?: true
+  idMajor?: true
   code?: true
   name?: true
   description?: true
@@ -63,7 +63,7 @@ export type MajorMinAggregateInputType = {
 }
 
 export type MajorMaxAggregateInputType = {
-  id?: true
+  idMajor?: true
   code?: true
   name?: true
   description?: true
@@ -72,7 +72,7 @@ export type MajorMaxAggregateInputType = {
 }
 
 export type MajorCountAggregateInputType = {
-  id?: true
+  idMajor?: true
   code?: true
   name?: true
   description?: true
@@ -154,7 +154,7 @@ export type MajorGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 export type MajorGroupByOutputType = {
-  id: string
+  idMajor: string
   code: string
   name: string
   description: string
@@ -184,26 +184,28 @@ export type MajorWhereInput = {
   AND?: Prisma.MajorWhereInput | Prisma.MajorWhereInput[]
   OR?: Prisma.MajorWhereInput[]
   NOT?: Prisma.MajorWhereInput | Prisma.MajorWhereInput[]
-  id?: Prisma.StringFilter<"Major"> | string
+  idMajor?: Prisma.StringFilter<"Major"> | string
   code?: Prisma.StringFilter<"Major"> | string
   name?: Prisma.StringFilter<"Major"> | string
   description?: Prisma.StringFilter<"Major"> | string
   createdAt?: Prisma.DateTimeFilter<"Major"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Major"> | Date | string
+  users?: Prisma.UsersListRelationFilter
 }
 
 export type MajorOrderByWithRelationInput = {
-  id?: Prisma.SortOrder
+  idMajor?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  users?: Prisma.UsersOrderByRelationAggregateInput
   _relevance?: Prisma.MajorOrderByRelevanceInput
 }
 
 export type MajorWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  idMajor?: string
   code?: string
   AND?: Prisma.MajorWhereInput | Prisma.MajorWhereInput[]
   OR?: Prisma.MajorWhereInput[]
@@ -212,10 +214,11 @@ export type MajorWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Major"> | string
   createdAt?: Prisma.DateTimeFilter<"Major"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Major"> | Date | string
-}, "id" | "code">
+  users?: Prisma.UsersListRelationFilter
+}, "idMajor" | "code">
 
 export type MajorOrderByWithAggregationInput = {
-  id?: Prisma.SortOrder
+  idMajor?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -230,7 +233,7 @@ export type MajorScalarWhereWithAggregatesInput = {
   AND?: Prisma.MajorScalarWhereWithAggregatesInput | Prisma.MajorScalarWhereWithAggregatesInput[]
   OR?: Prisma.MajorScalarWhereWithAggregatesInput[]
   NOT?: Prisma.MajorScalarWhereWithAggregatesInput | Prisma.MajorScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Major"> | string
+  idMajor?: Prisma.StringWithAggregatesFilter<"Major"> | string
   code?: Prisma.StringWithAggregatesFilter<"Major"> | string
   name?: Prisma.StringWithAggregatesFilter<"Major"> | string
   description?: Prisma.StringWithAggregatesFilter<"Major"> | string
@@ -239,43 +242,47 @@ export type MajorScalarWhereWithAggregatesInput = {
 }
 
 export type MajorCreateInput = {
-  id?: string
+  idMajor?: string
   code: string
   name: string
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  users?: Prisma.UsersCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateInput = {
-  id?: string
+  idMajor?: string
   code: string
   name: string
   description: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  users?: Prisma.UsersUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  idMajor?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UsersUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  idMajor?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UsersUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateManyInput = {
-  id?: string
+  idMajor?: string
   code: string
   name: string
   description: string
@@ -284,7 +291,7 @@ export type MajorCreateManyInput = {
 }
 
 export type MajorUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  idMajor?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -293,7 +300,7 @@ export type MajorUpdateManyMutationInput = {
 }
 
 export type MajorUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  idMajor?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -308,7 +315,7 @@ export type MajorOrderByRelevanceInput = {
 }
 
 export type MajorCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  idMajor?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -317,7 +324,7 @@ export type MajorCountOrderByAggregateInput = {
 }
 
 export type MajorMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  idMajor?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -326,12 +333,17 @@ export type MajorMaxOrderByAggregateInput = {
 }
 
 export type MajorMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  idMajor?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type MajorScalarRelationFilter = {
+  is?: Prisma.MajorWhereInput
+  isNot?: Prisma.MajorWhereInput
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -342,21 +354,118 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type MajorCreateNestedOneWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.MajorCreateWithoutUsersInput, Prisma.MajorUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.MajorCreateOrConnectWithoutUsersInput
+  connect?: Prisma.MajorWhereUniqueInput
+}
+
+export type MajorUpdateOneRequiredWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.MajorCreateWithoutUsersInput, Prisma.MajorUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.MajorCreateOrConnectWithoutUsersInput
+  upsert?: Prisma.MajorUpsertWithoutUsersInput
+  connect?: Prisma.MajorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MajorUpdateToOneWithWhereWithoutUsersInput, Prisma.MajorUpdateWithoutUsersInput>, Prisma.MajorUncheckedUpdateWithoutUsersInput>
+}
+
+export type MajorCreateWithoutUsersInput = {
+  idMajor?: string
+  code: string
+  name: string
+  description: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MajorUncheckedCreateWithoutUsersInput = {
+  idMajor?: string
+  code: string
+  name: string
+  description: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MajorCreateOrConnectWithoutUsersInput = {
+  where: Prisma.MajorWhereUniqueInput
+  create: Prisma.XOR<Prisma.MajorCreateWithoutUsersInput, Prisma.MajorUncheckedCreateWithoutUsersInput>
+}
+
+export type MajorUpsertWithoutUsersInput = {
+  update: Prisma.XOR<Prisma.MajorUpdateWithoutUsersInput, Prisma.MajorUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.MajorCreateWithoutUsersInput, Prisma.MajorUncheckedCreateWithoutUsersInput>
+  where?: Prisma.MajorWhereInput
+}
+
+export type MajorUpdateToOneWithWhereWithoutUsersInput = {
+  where?: Prisma.MajorWhereInput
+  data: Prisma.XOR<Prisma.MajorUpdateWithoutUsersInput, Prisma.MajorUncheckedUpdateWithoutUsersInput>
+}
+
+export type MajorUpdateWithoutUsersInput = {
+  idMajor?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MajorUncheckedUpdateWithoutUsersInput = {
+  idMajor?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type MajorCountOutputType
+ */
+
+export type MajorCountOutputType = {
+  users: number
+}
+
+export type MajorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | MajorCountOutputTypeCountUsersArgs
+}
+
+/**
+ * MajorCountOutputType without action
+ */
+export type MajorCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MajorCountOutputType
+   */
+  select?: Prisma.MajorCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MajorCountOutputType without action
+ */
+export type MajorCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UsersWhereInput
+}
 
 
 export type MajorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
+  idMajor?: boolean
   code?: boolean
   name?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  users?: boolean | Prisma.Major$usersArgs<ExtArgs>
+  _count?: boolean | Prisma.MajorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["major"]>
 
 
 
 export type MajorSelectScalar = {
-  id?: boolean
+  idMajor?: boolean
   code?: boolean
   name?: boolean
   description?: boolean
@@ -364,13 +473,19 @@ export type MajorSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MajorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["major"]>
+export type MajorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idMajor" | "code" | "name" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["major"]>
+export type MajorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | Prisma.Major$usersArgs<ExtArgs>
+  _count?: boolean | Prisma.MajorCountOutputTypeDefaultArgs<ExtArgs>
+}
 
 export type $MajorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Major"
-  objects: {}
+  objects: {
+    users: Prisma.$UsersPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    idMajor: string
     code: string
     name: string
     description: string
@@ -459,8 +574,8 @@ export interface MajorDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    * // Get first 10 Majors
    * const majors = await prisma.major.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const majorWithIdOnly = await prisma.major.findMany({ select: { id: true } })
+   * // Only select the `idMajor`
+   * const majorWithIdMajorOnly = await prisma.major.findMany({ select: { idMajor: true } })
    * 
    */
   findMany<T extends MajorFindManyArgs>(args?: Prisma.SelectSubset<T, MajorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -716,6 +831,7 @@ readonly fields: MajorFieldRefs;
  */
 export interface Prisma__MajorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  users<T extends Prisma.Major$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -745,7 +861,7 @@ export interface Prisma__MajorClient<T, Null = never, ExtArgs extends runtime.Ty
  * Fields of the Major model
  */
 export interface MajorFieldRefs {
-  readonly id: Prisma.FieldRef<"Major", 'String'>
+  readonly idMajor: Prisma.FieldRef<"Major", 'String'>
   readonly code: Prisma.FieldRef<"Major", 'String'>
   readonly name: Prisma.FieldRef<"Major", 'String'>
   readonly description: Prisma.FieldRef<"Major", 'String'>
@@ -768,6 +884,10 @@ export type MajorFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
+  /**
    * Filter, which Major to fetch.
    */
   where: Prisma.MajorWhereUniqueInput
@@ -786,6 +906,10 @@ export type MajorFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
+  /**
    * Filter, which Major to fetch.
    */
   where: Prisma.MajorWhereUniqueInput
@@ -803,6 +927,10 @@ export type MajorFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Major
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
   /**
    * Filter, which Major to fetch.
    */
@@ -852,6 +980,10 @@ export type MajorFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
+  /**
    * Filter, which Major to fetch.
    */
   where?: Prisma.MajorWhereInput
@@ -899,6 +1031,10 @@ export type MajorFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Major
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
   /**
    * Filter, which Majors to fetch.
    */
@@ -948,6 +1084,10 @@ export type MajorCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
+  /**
    * The data needed to create a Major.
    */
   data: Prisma.XOR<Prisma.MajorCreateInput, Prisma.MajorUncheckedCreateInput>
@@ -976,6 +1116,10 @@ export type MajorUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Major
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
   /**
    * The data needed to update a Major.
    */
@@ -1017,6 +1161,10 @@ export type MajorUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
+  /**
    * The filter to search for the Major to update in case it exists.
    */
   where: Prisma.MajorWhereUniqueInput
@@ -1043,6 +1191,10 @@ export type MajorDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
+  /**
    * Filter which Major to delete.
    */
   where: Prisma.MajorWhereUniqueInput
@@ -1063,6 +1215,30 @@ export type MajorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Major.users
+ */
+export type Major$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Users
+   */
+  select?: Prisma.UsersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Users
+   */
+  omit?: Prisma.UsersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UsersInclude<ExtArgs> | null
+  where?: Prisma.UsersWhereInput
+  orderBy?: Prisma.UsersOrderByWithRelationInput | Prisma.UsersOrderByWithRelationInput[]
+  cursor?: Prisma.UsersWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UsersScalarFieldEnum | Prisma.UsersScalarFieldEnum[]
+}
+
+/**
  * Major without action
  */
 export type MajorDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1074,4 +1250,8 @@ export type MajorDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Major
    */
   omit?: Prisma.MajorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MajorInclude<ExtArgs> | null
 }

@@ -1,5 +1,4 @@
-import type { User } from '../generated/prisma/client.js';
+import type { Users } from '../generated/prisma/client.js';
 
-export type CreateUserDto = Pick<User, 'name' | 'email' | 'password'>;
-export type LoginUserDto = Pick<User, 'email' | 'password'>;
-
+export type CreateUserDto = Pick<Users, 'fullName' | 'email' | 'password'>;
+export type LoginUserDto = Pick<Users, 'email' | 'password'>;
